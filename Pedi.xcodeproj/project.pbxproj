@@ -9,11 +9,12 @@
 /* Begin PBXBuildFile section */
 		6A10B4302242DBD40035D17B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A10B42F2242DBD40035D17B /* AppDelegate.swift */; };
 		6A10B4322242DBD40035D17B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A10B4312242DBD40035D17B /* ViewController.swift */; };
-		6A10B4352242DBD40035D17B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A10B4332242DBD40035D17B /* Main.storyboard */; };
 		6A10B4372242DBD90035D17B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A10B4362242DBD90035D17B /* Assets.xcassets */; };
 		6A10B43A2242DBD90035D17B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A10B4382242DBD90035D17B /* LaunchScreen.storyboard */; };
 		6A10B4452242DBD90035D17B /* PediTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A10B4442242DBD90035D17B /* PediTests.swift */; };
 		6A10B4502242DBD90035D17B /* PediUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A10B44F2242DBD90035D17B /* PediUITests.swift */; };
+		6A10B45F2242DEB90035D17B /* PDSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A10B45E2242DEB90035D17B /* PDSearchField.swift */; };
+		6A362445224444E300313FBA /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A362444224444E300313FBA /* Style.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +38,6 @@
 		6A10B42C2242DBD40035D17B /* Pedi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pedi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A10B42F2242DBD40035D17B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6A10B4312242DBD40035D17B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		6A10B4342242DBD40035D17B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6A10B4362242DBD90035D17B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6A10B4392242DBD90035D17B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6A10B43B2242DBD90035D17B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -47,6 +47,8 @@
 		6A10B44B2242DBD90035D17B /* PediUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PediUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A10B44F2242DBD90035D17B /* PediUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PediUITests.swift; sourceTree = "<group>"; };
 		6A10B4512242DBD90035D17B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6A10B45E2242DEB90035D17B /* PDSearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSearchField.swift; sourceTree = "<group>"; };
+		6A362444224444E300313FBA /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,12 +99,13 @@
 		6A10B42E2242DBD40035D17B /* Pedi */ = {
 			isa = PBXGroup;
 			children = (
+				6A10B45D2242DEA10035D17B /* Views  */,
 				6A10B42F2242DBD40035D17B /* AppDelegate.swift */,
 				6A10B4312242DBD40035D17B /* ViewController.swift */,
-				6A10B4332242DBD40035D17B /* Main.storyboard */,
 				6A10B4362242DBD90035D17B /* Assets.xcassets */,
 				6A10B4382242DBD90035D17B /* LaunchScreen.storyboard */,
 				6A10B43B2242DBD90035D17B /* Info.plist */,
+				6A362444224444E300313FBA /* Style.swift */,
 			);
 			path = Pedi;
 			sourceTree = "<group>";
@@ -123,6 +126,14 @@
 				6A10B4512242DBD90035D17B /* Info.plist */,
 			);
 			path = PediUITests;
+			sourceTree = "<group>";
+		};
+		6A10B45D2242DEA10035D17B /* Views  */ = {
+			isa = PBXGroup;
+			children = (
+				6A10B45E2242DEB90035D17B /* PDSearchField.swift */,
+			);
+			path = "Views ";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,7 +242,6 @@
 			files = (
 				6A10B43A2242DBD90035D17B /* LaunchScreen.storyboard in Resources */,
 				6A10B4372242DBD90035D17B /* Assets.xcassets in Resources */,
-				6A10B4352242DBD40035D17B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,7 +267,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A10B4322242DBD40035D17B /* ViewController.swift in Sources */,
+				6A10B45F2242DEB90035D17B /* PDSearchField.swift in Sources */,
 				6A10B4302242DBD40035D17B /* AppDelegate.swift in Sources */,
+				6A362445224444E300313FBA /* Style.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,14 +305,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		6A10B4332242DBD40035D17B /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6A10B4342242DBD40035D17B /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		6A10B4382242DBD90035D17B /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
