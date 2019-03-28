@@ -13,12 +13,15 @@ class PDSearchField: UITextField {
     super.init(frame: frame)
     
     placeholder = "Where to?"
+    attributedPlaceholder = NSAttributedString(string: "Where to?", attributes: [NSAttributedString.Key.foregroundColor: Styles.Colors.purple])
     backgroundColor = Styles.Colors.lightPurple
     
     layer.borderColor = Styles.Colors.purple.cgColor
     layer.borderWidth = 6
     layer.cornerRadius = 6
   }
+  
+  
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")

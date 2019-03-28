@@ -39,5 +39,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>MGLMapboxAccessToken</key>
+	<string>pk.eyJ1IjoiaXJvc2VuYiIsImEiOiJFWjhEY0NVIn0.vLbckpy27jsele4bzz7x6Q</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Find a Pedicab</string>
 </dict>
 </plist>

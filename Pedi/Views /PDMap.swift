@@ -7,7 +7,16 @@
 //
 
 import UIKit
-
+import Mapbox
 class PDMap: MGLMapView {
-
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    styleURL = URL(string: "mapbox://styles/irosenb/cjjyq8qjq801e2rlhdg0i1ceu")
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  
 }
