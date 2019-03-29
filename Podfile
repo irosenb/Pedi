@@ -6,6 +6,7 @@ target 'Pedi' do
   use_frameworks!
   pod 'Mapbox-iOS-SDK', '~> 4.9'
   pod 'SwiftLocation'
+  pod 'MapboxGeocoder.swift', '~> 0.10'
   # Pods for Pedi
 
   target 'PediTests' do

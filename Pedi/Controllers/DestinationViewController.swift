@@ -8,7 +8,6 @@
 
 import UIKit
 import Mapbox
-
 class DestinationViewController: UIViewController {
   let startTextField = PDSearchField()
   let destinationTextField = PDSearchField()
