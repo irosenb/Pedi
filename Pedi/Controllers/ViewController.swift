@@ -55,8 +55,13 @@ class ViewController: UIViewController {
   }
 
   @objc func selectDestination() {
+    searchField.endEditing(true)
+    
     let destinationController = DestinationViewController()
+    destinationController.currentLocation = self.location
+    
     let nav = UINavigationController(rootViewController: destinationController)
+    
     present(nav, animated: true, completion: nil)
   }
   

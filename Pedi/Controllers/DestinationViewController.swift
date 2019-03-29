@@ -8,9 +8,16 @@
 
 import UIKit
 import Mapbox
-class DestinationViewController: UIViewController {
+import MapboxGeocoder
+
+class DestinationViewController: UIViewController, UITextFieldDelegate {
   let startTextField = PDSearchField()
   let destinationTextField = PDSearchField()
+  let tableView = UITableView()
+
+  let geocoder = Geocoder.shared
+  var searchResults: [Placemark] = []
+  var currentLocation: CLLocation?
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -21,6 +28,8 @@ class DestinationViewController: UIViewController {
     view.backgroundColor = .white
     
     navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(DestinationViewController.dismissVC))
+    
+    tableView.register(SearchResultTableViewCell.self, forCellReuseIdentifier: "SearchResultTableViewCell")
       // Do any additional setup after loading the view.
   }
   
@@ -31,7 +40,13 @@ class DestinationViewController: UIViewController {
     
     destinationTextField.translatesAutoresizingMaskIntoConstraints = false
     destinationTextField.becomeFirstResponder()
+    destinationTextField.delegate = self
     view.addSubview(destinationTextField)
+    
+    tableView.translatesAutoresizingMaskIntoConstraints = false
+    tableView.dataSource = self
+    tableView.delegate = self
+    view.addSubview(tableView)
   }
   
   func addConstraints() {
@@ -46,20 +61,59 @@ class DestinationViewController: UIViewController {
     let destinationHeight = NSLayoutConstraint(item: destinationTextField, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 60)
     let destinationCenterX = NSLayoutConstraint(item: destinationTextField, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0)
     view.addConstraints([destinationTop, destinationHeight, destinationWidth, destinationCenterX])
+    
+    let tableViewTop = NSLayoutConstraint(item: tableView, attribute: .top, relatedBy: .equal, toItem: destinationTextField, attribute: .bottom, multiplier: 1, constant: 0)
+    let tableViewBottom = NSLayoutConstraint(item: tableView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
+    let tableViewWidth = NSLayoutConstraint(item: tableView, attribute: .width, relatedBy: .equal, toItem: view, attribute: .width, multiplier: 1, constant: 0)
+    view.addConstraints([tableViewTop, tableViewWidth, tableViewBottom])
   }
 
   
   @objc func dismissVC() {
     self.dismiss(animated: true, completion: nil)
   }
-  /*
-  // MARK: - Navigation
-
-  // In a storyboard-based application, you will often want to do a little preparation before navigation
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-      // Get the new view controller using segue.destination.
-      // Pass the selected object to the new view controller.
+  
+  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    guard let query = textField.text else { return true }
+    let options = ForwardGeocodeOptions(query: query)
+    
+    options.focalLocation = self.currentLocation
+    options.allowedScopes = [.address, .landmark, .pointOfInterest]
+    
+    let task = geocoder.geocode(options) { (places, attributions, error) in
+      guard let results = places else { return }
+      
+      self.searchResults = results
+      self.tableView.reloadData()
+    }
+    
+    return true
   }
-  */
+}
 
+extension DestinationViewController: UITableViewDataSource {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return searchResults.count
+  }
+  
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    guard let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultTableViewCell") as? SearchResultTableViewCell else { return UITableViewCell() }
+    let result = searchResults[indexPath.row]
+    
+    let name = result.name
+    let address = result.qualifiedName
+    
+    print(address)
+    
+    cell.title.text = name
+    cell.subtitle.text = address
+    
+    return cell
+  }
+}
+
+extension DestinationViewController: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return 50
+  }
 }

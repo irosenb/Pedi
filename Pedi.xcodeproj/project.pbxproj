@@ -16,6 +16,7 @@
 		6A10B4502242DBD90035D17B /* PediUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A10B44F2242DBD90035D17B /* PediUITests.swift */; };
 		6A10B45F2242DEB90035D17B /* PDSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A10B45E2242DEB90035D17B /* PDSearchField.swift */; };
 		6A2885AA224E87D900931A34 /* DestinationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2885A9224E87D900931A34 /* DestinationViewController.swift */; };
+		6A2885AC224EDA9100931A34 /* SearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2885AB224EDA9100931A34 /* SearchResultTableViewCell.swift */; };
 		6A362445224444E300313FBA /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A362444224444E300313FBA /* Style.swift */; };
 		6A36244922444A7A00313FBA /* PDMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A36244822444A7A00313FBA /* PDMap.swift */; };
 		9B81A2730D173ED33FEBAEF1 /* Pods_PediTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 609EF626FF3E14CE6E683CEA /* Pods_PediTests.framework */; };
@@ -58,6 +59,7 @@
 		6A10B4512242DBD90035D17B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6A10B45E2242DEB90035D17B /* PDSearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSearchField.swift; sourceTree = "<group>"; };
 		6A2885A9224E87D900931A34 /* DestinationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationViewController.swift; sourceTree = "<group>"; };
+		6A2885AB224EDA9100931A34 /* SearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewCell.swift; sourceTree = "<group>"; };
 		6A362444224444E300313FBA /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		6A36244822444A7A00313FBA /* PDMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDMap.swift; sourceTree = "<group>"; };
 		9042470203D6AEA74A79270C /* Pods-Pedi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pedi.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pedi/Pods-Pedi.release.xcconfig"; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 			children = (
 				6A36244822444A7A00313FBA /* PDMap.swift */,
 				6A10B45E2242DEB90035D17B /* PDSearchField.swift */,
+				6A2885AB224EDA9100931A34 /* SearchResultTableViewCell.swift */,
 			);
 			path = "Views ";
 			sourceTree = "<group>";
@@ -407,6 +410,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A2885AC224EDA9100931A34 /* SearchResultTableViewCell.swift in Sources */,
 				6A10B4322242DBD40035D17B /* ViewController.swift in Sources */,
 				6A2885AA224E87D900931A34 /* DestinationViewController.swift in Sources */,
 				6A36244922444A7A00313FBA /* PDMap.swift in Sources */,
