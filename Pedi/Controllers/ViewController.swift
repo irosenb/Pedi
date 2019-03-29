@@ -26,6 +26,8 @@ class ViewController: UIViewController {
     addViews()
     addConstraints()
     
+    searchField.addTarget(self, action: #selector(selectDestination), for: .editingDidBegin)
+    
     NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
 
     
@@ -52,6 +54,12 @@ class ViewController: UIViewController {
     map.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1).isActive = true
   }
 
+  @objc func selectDestination() {
+    let destinationController = DestinationViewController()
+    let nav = UINavigationController(rootViewController: destinationController)
+    present(nav, animated: true, completion: nil)
+  }
+  
   func getLocation() {
     if Locator.authorizationStatus == .denied {
       return
