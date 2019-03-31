@@ -7,6 +7,7 @@ target 'Pedi' do
   pod 'Mapbox-iOS-SDK', '~> 4.9'
   pod 'SwiftLocation'
   pod 'MapboxGeocoder.swift', '~> 0.10'
+  pod 'MapboxDirections.swift', '~> 0.27'
   # Pods for Pedi
 
   target 'PediTests' do

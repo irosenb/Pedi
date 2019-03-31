@@ -9,6 +9,7 @@
 import UIKit
 import Mapbox
 import MapboxGeocoder
+import MapboxDirections
 
 class PreviewViewController: UIViewController {
   var destination: Placemark?
@@ -19,6 +20,7 @@ class PreviewViewController: UIViewController {
   let requestRide = UIButton()
   let priceLabel = UILabel()
   let map = PDMap(frame: .zero)
+  let directions = Directions.shared
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -30,6 +32,8 @@ class PreviewViewController: UIViewController {
     
     addViews()
     addConstraints()
+    
+    calculateDirections()
   }
   
   func addViews() {
@@ -72,7 +76,46 @@ class PreviewViewController: UIViewController {
     map.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1).isActive = true
     map.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1).isActive = true
   }
-
+  
+  func calculateDirections() {
+    guard let startPoint = currentLocation else { return }
+    guard let endPoint = destination?.location else { return }
+    let waypoints = [
+      Waypoint(coordinate: startPoint.coordinate, coordinateAccuracy: -1, name: "start"),
+      Waypoint(coordinate: endPoint.coordinate, coordinateAccuracy: -1, name: "end")
+    ]
+  
+    let options = RouteOptions(waypoints: waypoints, profileIdentifier: .cycling)
+    options.includesSteps = true
+    
+    let task = directions.calculate(options) { (waypoints, routes, error) in
+      guard error == nil else {
+        print("Error calculating directions: \(error!)")
+        return
+      }
+      
+      if let route = routes?.first, let leg = route.legs.first {
+        print("Route via \(leg):")
+        
+        let distanceFormatter = LengthFormatter()
+        let formattedDistance = distanceFormatter.string(fromMeters: route.distance)
+        
+        let travelTimeFormatter = DateComponentsFormatter()
+        travelTimeFormatter.unitsStyle = .short
+        let formattedTravelTime = travelTimeFormatter.string(from: route.expectedTravelTime)
+        
+        print("Distance: \(formattedDistance); ETA: \(formattedTravelTime!)")
+        
+        var routeCoordinates = route.coordinates!
+        let routeLine = MGLPolyline(coordinates: &routeCoordinates, count: route.coordinateCount)
+        
+        // Add the polyline to the map and fit the viewport to the polyline.
+        self.map.addAnnotation(routeLine)
+        self.map.setVisibleCoordinates(&routeCoordinates, count: route.coordinateCount, edgePadding: .zero, animated: true)
+      }
+    }
+  }
+  
   func setStartText() {
     if ((start?.location) == nil) {
       destinationBar.start.text = "Current location"
