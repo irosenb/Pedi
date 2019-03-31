@@ -28,9 +28,11 @@ class DestinationBar: UIView {
   
   func addViews() {
     start.translatesAutoresizingMaskIntoConstraints = false
+    start.textColor = .white
     addSubview(start)
     
     destination.translatesAutoresizingMaskIntoConstraints = false
+    destination.textColor = .white
     addSubview(destination)
   }
   

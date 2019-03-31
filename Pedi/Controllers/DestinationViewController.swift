@@ -121,5 +121,7 @@ extension DestinationViewController: UITableViewDelegate {
     let preview = PreviewViewController()
     preview.destination = selectedLocation
     preview.currentLocation = self.currentLocation
+    
+    navigationController?.pushViewController(preview, animated: false)
   }
 }
