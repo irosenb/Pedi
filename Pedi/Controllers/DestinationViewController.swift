@@ -103,8 +103,6 @@ extension DestinationViewController: UITableViewDataSource {
     let name = result.name
     let address = result.qualifiedName
     
-    print(address)
-    
     cell.title.text = name
     cell.subtitle.text = address
     
@@ -115,5 +113,13 @@ extension DestinationViewController: UITableViewDataSource {
 extension DestinationViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return 50
+  }
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let selectedLocation = searchResults[indexPath.row]
+    
+    let preview = PreviewViewController()
+    preview.destination = selectedLocation
+    preview.currentLocation = self.currentLocation
   }
 }
