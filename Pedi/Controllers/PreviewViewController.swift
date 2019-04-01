@@ -110,8 +110,10 @@ class PreviewViewController: UIViewController {
         let routeLine = MGLPolyline(coordinates: &routeCoordinates, count: route.coordinateCount)
         
         // Add the polyline to the map and fit the viewport to the polyline.
+        let edge = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        
         self.map.addAnnotation(routeLine)
-        self.map.setVisibleCoordinates(&routeCoordinates, count: route.coordinateCount, edgePadding: .zero, animated: true)
+        self.map.setVisibleCoordinates(&routeCoordinates, count: route.coordinateCount, edgePadding: edge, animated: true)
       }
     }
   }
