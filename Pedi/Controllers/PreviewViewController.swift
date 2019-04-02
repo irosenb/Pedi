@@ -38,6 +38,7 @@ class PreviewViewController: UIViewController {
   
   func addViews() {
     map.translatesAutoresizingMaskIntoConstraints = false
+    map.showsUserLocation = true
     view.addSubview(map)
 
     destinationBar.translatesAutoresizingMaskIntoConstraints = false
@@ -110,7 +111,7 @@ class PreviewViewController: UIViewController {
         let routeLine = MGLPolyline(coordinates: &routeCoordinates, count: route.coordinateCount)
         
         // Add the polyline to the map and fit the viewport to the polyline.
-        let edge = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        let edge = UIEdgeInsets(top: 60, left: 10, bottom: 60, right: 10)
         
         self.map.addAnnotation(routeLine)
         self.map.setVisibleCoordinates(&routeCoordinates, count: route.coordinateCount, edgePadding: edge, animated: true)
