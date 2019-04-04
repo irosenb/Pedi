@@ -11,7 +11,7 @@ import SwiftLocation
 import MapKit
 
 class ViewController: UIViewController {
-  let searchField = PDSearchField()
+  let searchField = PDTextField()
   var searchBottom: NSLayoutConstraint?
   let map = PDMap(frame: .zero)
   var location: CLLocation?

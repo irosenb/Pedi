@@ -11,8 +11,8 @@ import Mapbox
 import MapboxGeocoder
 
 class DestinationViewController: UIViewController, UITextFieldDelegate {
-  let startTextField = PDSearchField()
-  let destinationTextField = PDSearchField()
+  let startTextField = PDTextField()
+  let destinationTextField = PDTextField()
   let tableView = UITableView()
 
   let geocoder = Geocoder.shared
