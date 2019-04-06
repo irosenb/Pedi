@@ -1,44 +1,41 @@
 //
-//  ViewController.swift
+//  PasswordViewController.swift
 //  Pedi
 //
-//  Created by Isaac Rosenberg on 4/03/19.
-//  Copyright © 2019 Pedi Inc. All rights reserved.
+//  Created by Isaac Rosenberg on 4/4/19.
+//  Copyright © 2019 Isaac Rosenberg. All rights reserved.
 //
 
 import UIKit
 
-class EmailSignupViewController: UIViewController {
-  let email = PDTextField()
+class PasswordViewController: UIViewController {
+  var email: String?
+  let password = PDTextField()
   let label = UILabel()
   let continueButton = UIButton()
   var continueBottomAnchor: NSLayoutConstraint?
   override func viewDidLoad() {
     super.viewDidLoad()
-
     view.backgroundColor = .white
- 
-    navigationController?.navigationBar.isHidden = true
     
-    addViews() 
+    addViews()
     addConstraints()
-
+    
     NotificationCenter.default.addObserver(self, selector: #selector(EmailSignupViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-  }
 
+    // Do any additional setup after loading the view.
+  }
+  
   func addViews() {
-    email.translatesAutoresizingMaskIntoConstraints = false
-    email.placeholder = "Email"
-    email.keyboardType = .emailAddress
-    email.autocapitalizationType = .none
-    email.autocorrectionType = .no
-    email.delegate = self
-    view.addSubview(email)
+    password.translatesAutoresizingMaskIntoConstraints = false
+    password.isSecureTextEntry = true
+    password.placeholder = "Make it secure"
+    password.autocorrectionType = .no
+    view.addSubview(password)
     
     label.translatesAutoresizingMaskIntoConstraints = false
+    label.text = "Create your password"
     label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
-    label.text = "What's your email?"
-    label.sizeToFit()
     view.addSubview(label)
     
     continueButton.translatesAutoresizingMaskIntoConstraints = false
@@ -48,16 +45,17 @@ class EmailSignupViewController: UIViewController {
     continueButton.isEnabled = true
     continueButton.backgroundColor = Styles.Colors.purple
     view.addSubview(continueButton)
+    
   }
   
   func addConstraints() {
     label.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
     label.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30).isActive = true
     
-    email.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 43).isActive = true
-    email.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1, constant: -20).isActive = true
-    email.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-    email.heightAnchor.constraint(equalToConstant: 60).isActive = true
+    password.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 43).isActive = true
+    password.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1, constant: -20).isActive = true
+    password.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+    password.heightAnchor.constraint(equalToConstant: 60).isActive = true
     
     continueBottomAnchor = continueButton.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: 0)
     continueBottomAnchor?.isActive = true
@@ -66,27 +64,18 @@ class EmailSignupViewController: UIViewController {
     continueButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1).isActive = true
   }
   
-  @objc func nextScreen() {
-    guard let text = email.text else { return }
-    guard !text.isEmpty else {
-      return
-    }
-    
-    let password = PasswordViewController()
-    password.email = text
-    navigationController?.pushViewController(password, animated: true)
-  }
-  
   @objc func keyboardWillShow(notification: Notification) {
     let frame = (notification.userInfo![UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
     continueBottomAnchor?.constant = -frame.height
     view.setNeedsLayout()
   }
-}
-
-extension EmailSignupViewController: UITextFieldDelegate {
-  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-    continueButton.isEnabled = true
-    return true
+  
+  @objc func nextScreen() {
+    let name = NameViewController()
+    
+    name.password = password.text
+    name.email = email
+    
+    navigationController?.pushViewController(name, animated: true)
   }
 }

@@ -24,6 +24,8 @@
 		9B81A2730D173ED33FEBAEF1 /* Pods_PediTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 609EF626FF3E14CE6E683CEA /* Pods_PediTests.framework */; };
 		D04377CDF27A509C1AB034F9 /* Pods_PediUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34EF76AEC3E541F8D26B2EE0 /* Pods_PediUITests.framework */; };
 		E529F91622565BB8004735D6 /* EmailSignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E529F91522565BB7004735D6 /* EmailSignupViewController.swift */; };
+		E529F91922569B63004735D6 /* PasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E529F91822569B63004735D6 /* PasswordViewController.swift */; };
+		E5D8A5862257B9DB0084CDBE /* NameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D8A5852257B9DA0084CDBE /* NameViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +73,8 @@
 		BBD68FFEBD64DD8008B03152 /* Pods-PediTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PediTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PediTests/Pods-PediTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D9DB2BC1596DFE756CD76032 /* Pods-PediUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PediUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PediUITests/Pods-PediUITests.release.xcconfig"; sourceTree = "<group>"; };
 		E529F91522565BB7004735D6 /* EmailSignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EmailSignupViewController.swift; path = /Users/isaacrosenberg/code/Pedi/Pedi/Controllers/EmailSignupViewController.swift; sourceTree = "<absolute>"; };
+		E529F91822569B63004735D6 /* PasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordViewController.swift; sourceTree = "<group>"; };
+		E5D8A5852257B9DA0084CDBE /* NameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameViewController.swift; sourceTree = "<group>"; };
 		E9E53319A6E343293F74D61B /* Pods-PediUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PediUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PediUITests/Pods-PediUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		F0ED209E80C36F65CED9D52B /* Pods-PediTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PediTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PediTests/Pods-PediTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -185,6 +189,8 @@
 			isa = PBXGroup;
 			children = (
 				E529F91522565BB7004735D6 /* EmailSignupViewController.swift */,
+				E529F91822569B63004735D6 /* PasswordViewController.swift */,
+				E5D8A5852257B9DA0084CDBE /* NameViewController.swift */,
 				6A10B4312242DBD40035D17B /* ViewController.swift */,
 				6A2885A9224E87D900931A34 /* DestinationViewController.swift */,
 				6A238EFF224F07BC00163FCC /* PreviewViewController.swift */,
@@ -426,6 +432,7 @@
 				6A2885AC224EDA9100931A34 /* SearchResultTableViewCell.swift in Sources */,
 				6A10B4322242DBD40035D17B /* ViewController.swift in Sources */,
 				E529F91622565BB8004735D6 /* EmailSignupViewController.swift in Sources */,
+				E529F91922569B63004735D6 /* PasswordViewController.swift in Sources */,
 				6A2885AA224E87D900931A34 /* DestinationViewController.swift in Sources */,
 				6A238F0222500DF000163FCC /* DestinationBar.swift in Sources */,
 				6A36244922444A7A00313FBA /* PDMap.swift in Sources */,
@@ -433,6 +440,7 @@
 				6A10B4302242DBD40035D17B /* AppDelegate.swift in Sources */,
 				6A362445224444E300313FBA /* Style.swift in Sources */,
 				6A238F00224F07BC00163FCC /* PreviewViewController.swift in Sources */,
+				E5D8A5862257B9DB0084CDBE /* NameViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
