@@ -1,36 +1,44 @@
 PODS:
+  - Alamofire (4.8.2)
   - Mapbox-iOS-SDK (4.9.0)
   - MapboxDirections.swift (0.27.2):
     - Polyline (~> 4.2)
   - MapboxGeocoder.swift (0.10.2)
+  - ObjectMapper (3.4.2)
   - Polyline (4.2.0)
   - SwiftLocation (3.2.3):
     - SwiftyJSON (~> 4.0.0-alpha.1)
   - SwiftyJSON (4.0.0)
 
 DEPENDENCIES:
+  - Alamofire
   - Mapbox-iOS-SDK (~> 4.9)
   - MapboxDirections.swift (~> 0.27)
   - MapboxGeocoder.swift (~> 0.10)
+  - ObjectMapper (~> 3.4)
   - SwiftLocation
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Alamofire
     - Mapbox-iOS-SDK
     - MapboxDirections.swift
     - MapboxGeocoder.swift
+    - ObjectMapper
     - Polyline
     - SwiftLocation
     - SwiftyJSON
 
 SPEC CHECKSUMS:
+  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   Mapbox-iOS-SDK: 225036950837cbe408e6b333e51cd6001c122499
   MapboxDirections.swift: b67d0b0bd0ac46906642baba38f4be777c50d68e
   MapboxGeocoder.swift: 8cff5dddf98d87838509bf80a5bce5f1d0cf8393
+  ObjectMapper: 0d4402610f4e468903ae64629eec4784531e5c51
   Polyline: 3d69f75bb136357e27291d439d0436c6ebda57a4
   SwiftLocation: a3c3bc2023118171ef3572188a31def94aa0892c
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
 
-PODFILE CHECKSUM: d07769c275f45a97452e46ed4a91427f02ce93b7
+PODFILE CHECKSUM: 7387500dd633331b3bb4a3b2b90118e4dbbefd1b
 
 COCOAPODS: 1.6.1

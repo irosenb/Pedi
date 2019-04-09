@@ -8,6 +8,8 @@ target 'Pedi' do
   pod 'SwiftLocation'
   pod 'MapboxGeocoder.swift', '~> 0.10'
   pod 'MapboxDirections.swift', '~> 0.27'
+  pod 'Alamofire'
+  pod 'ObjectMapper', '~> 3.4'
   # Pods for Pedi
 
   target 'PediTests' do

@@ -10,7 +10,7 @@ import UIKit
 import SwiftLocation
 import MapKit
 
-class ViewController: UIViewController {
+class RequestRideViewController: UIViewController {
   let searchField = PDTextField()
   var searchBottom: NSLayoutConstraint?
   let map = PDMap(frame: .zero)
@@ -28,7 +28,7 @@ class ViewController: UIViewController {
     
     searchField.addTarget(self, action: #selector(selectDestination), for: .editingDidBegin)
     
-    NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(RequestRideViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
 
     
     getLocation()

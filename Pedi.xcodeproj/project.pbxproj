@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		45E2807EF5E49F6D23C5BFDB /* Pods_Pedi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46AF5A2C48B587F2D2F0EE03 /* Pods_Pedi.framework */; };
 		6A10B4302242DBD40035D17B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A10B42F2242DBD40035D17B /* AppDelegate.swift */; };
-		6A10B4322242DBD40035D17B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A10B4312242DBD40035D17B /* ViewController.swift */; };
+		6A10B4322242DBD40035D17B /* RequestRideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A10B4312242DBD40035D17B /* RequestRideViewController.swift */; };
 		6A10B4372242DBD90035D17B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A10B4362242DBD90035D17B /* Assets.xcassets */; };
 		6A10B43A2242DBD90035D17B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A10B4382242DBD90035D17B /* LaunchScreen.storyboard */; };
 		6A10B4452242DBD90035D17B /* PediTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A10B4442242DBD90035D17B /* PediTests.swift */; };
@@ -25,6 +25,9 @@
 		D04377CDF27A509C1AB034F9 /* Pods_PediUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34EF76AEC3E541F8D26B2EE0 /* Pods_PediUITests.framework */; };
 		E529F91622565BB8004735D6 /* EmailSignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E529F91522565BB7004735D6 /* EmailSignupViewController.swift */; };
 		E529F91922569B63004735D6 /* PasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E529F91822569B63004735D6 /* PasswordViewController.swift */; };
+		E55AEAC22259799800167B6D /* PDPersonData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55AEAC12259799800167B6D /* PDPersonData.swift */; };
+		E55AEAC8225BAEA000167B6D /* PDSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55AEAC7225BAEA000167B6D /* PDSessionManager.swift */; };
+		E55AEACA225BFE8F00167B6D /* PDUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55AEAC9225BFE8F00167B6D /* PDUser.swift */; };
 		E5D8A5862257B9DB0084CDBE /* NameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D8A5852257B9DA0084CDBE /* NameViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -52,7 +55,7 @@
 		609EF626FF3E14CE6E683CEA /* Pods_PediTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PediTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A10B42C2242DBD40035D17B /* Pedi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pedi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A10B42F2242DBD40035D17B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		6A10B4312242DBD40035D17B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		6A10B4312242DBD40035D17B /* RequestRideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestRideViewController.swift; sourceTree = "<group>"; };
 		6A10B4362242DBD90035D17B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6A10B4392242DBD90035D17B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6A10B43B2242DBD90035D17B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -74,6 +77,9 @@
 		D9DB2BC1596DFE756CD76032 /* Pods-PediUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PediUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PediUITests/Pods-PediUITests.release.xcconfig"; sourceTree = "<group>"; };
 		E529F91522565BB7004735D6 /* EmailSignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EmailSignupViewController.swift; path = /Users/isaacrosenberg/code/Pedi/Pedi/Controllers/EmailSignupViewController.swift; sourceTree = "<absolute>"; };
 		E529F91822569B63004735D6 /* PasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordViewController.swift; sourceTree = "<group>"; };
+		E55AEAC12259799800167B6D /* PDPersonData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDPersonData.swift; sourceTree = "<group>"; };
+		E55AEAC7225BAEA000167B6D /* PDSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSessionManager.swift; sourceTree = "<group>"; };
+		E55AEAC9225BFE8F00167B6D /* PDUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDUser.swift; sourceTree = "<group>"; };
 		E5D8A5852257B9DA0084CDBE /* NameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameViewController.swift; sourceTree = "<group>"; };
 		E9E53319A6E343293F74D61B /* Pods-PediUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PediUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PediUITests/Pods-PediUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		F0ED209E80C36F65CED9D52B /* Pods-PediTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PediTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PediTests/Pods-PediTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -145,6 +151,7 @@
 		6A10B42E2242DBD40035D17B /* Pedi */ = {
 			isa = PBXGroup;
 			children = (
+				E55AEABE225966D700167B6D /* Models */,
 				6A2885A8224E870B00931A34 /* Controllers */,
 				6A10B45D2242DEA10035D17B /* Views  */,
 				6A10B42F2242DBD40035D17B /* AppDelegate.swift */,
@@ -188,12 +195,8 @@
 		6A2885A8224E870B00931A34 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				E529F91522565BB7004735D6 /* EmailSignupViewController.swift */,
-				E529F91822569B63004735D6 /* PasswordViewController.swift */,
-				E5D8A5852257B9DA0084CDBE /* NameViewController.swift */,
-				6A10B4312242DBD40035D17B /* ViewController.swift */,
-				6A2885A9224E87D900931A34 /* DestinationViewController.swift */,
-				6A238EFF224F07BC00163FCC /* PreviewViewController.swift */,
+				E55AEACB225CDA1B00167B6D /* Rider */,
+				E55AEAC4225A6C5300167B6D /* Onboarding */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -206,6 +209,36 @@
 				34EF76AEC3E541F8D26B2EE0 /* Pods_PediUITests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E55AEABE225966D700167B6D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E55AEAC12259799800167B6D /* PDPersonData.swift */,
+				E55AEAC7225BAEA000167B6D /* PDSessionManager.swift */,
+				E55AEAC9225BFE8F00167B6D /* PDUser.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E55AEAC4225A6C5300167B6D /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				E529F91522565BB7004735D6 /* EmailSignupViewController.swift */,
+				E529F91822569B63004735D6 /* PasswordViewController.swift */,
+				E5D8A5852257B9DA0084CDBE /* NameViewController.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		E55AEACB225CDA1B00167B6D /* Rider */ = {
+			isa = PBXGroup;
+			children = (
+				6A10B4312242DBD40035D17B /* RequestRideViewController.swift */,
+				6A2885A9224E87D900931A34 /* DestinationViewController.swift */,
+				6A238EFF224F07BC00163FCC /* PreviewViewController.swift */,
+			);
+			path = Rider;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -345,20 +378,24 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Pedi/Pods-Pedi-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework.dSYM",
 				"${BUILT_PRODUCTS_DIR}/MapboxDirections.swift/MapboxDirections.framework",
 				"${BUILT_PRODUCTS_DIR}/MapboxGeocoder.swift/MapboxGeocoder.framework",
+				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/Polyline/Polyline.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftLocation/SwiftLocation.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/Mapbox.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxDirections.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxGeocoder.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Polyline.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftLocation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
@@ -429,8 +466,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E55AEACA225BFE8F00167B6D /* PDUser.swift in Sources */,
 				6A2885AC224EDA9100931A34 /* SearchResultTableViewCell.swift in Sources */,
-				6A10B4322242DBD40035D17B /* ViewController.swift in Sources */,
+				6A10B4322242DBD40035D17B /* RequestRideViewController.swift in Sources */,
+				E55AEAC22259799800167B6D /* PDPersonData.swift in Sources */,
 				E529F91622565BB8004735D6 /* EmailSignupViewController.swift in Sources */,
 				E529F91922569B63004735D6 /* PasswordViewController.swift in Sources */,
 				6A2885AA224E87D900931A34 /* DestinationViewController.swift in Sources */,
@@ -438,6 +477,7 @@
 				6A36244922444A7A00313FBA /* PDMap.swift in Sources */,
 				6A10B45F2242DEB90035D17B /* PDSearchField.swift in Sources */,
 				6A10B4302242DBD40035D17B /* AppDelegate.swift in Sources */,
+				E55AEAC8225BAEA000167B6D /* PDSessionManager.swift in Sources */,
 				6A362445224444E300313FBA /* Style.swift in Sources */,
 				6A238F00224F07BC00163FCC /* PreviewViewController.swift in Sources */,
 				E5D8A5862257B9DB0084CDBE /* NameViewController.swift in Sources */,

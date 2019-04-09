@@ -68,7 +68,7 @@ class PreviewViewController: UIViewController {
     
     requestRide.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1).isActive = true
     requestRide.heightAnchor.constraint(equalToConstant: 60).isActive = true
-    requestRide.bottomAnchor.constraint(equalTo: view.bottomAnchor
+    requestRide.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor
       , constant: 0).isActive = true
     
     priceLabel.bottomAnchor.constraint(equalTo: requestRide.topAnchor, constant: -30).isActive = true
@@ -115,6 +115,7 @@ class PreviewViewController: UIViewController {
         
         self.map.addAnnotation(routeLine)
         self.map.setVisibleCoordinates(&routeCoordinates, count: route.coordinateCount, edgePadding: edge, animated: true)
+        
       }
     }
   }

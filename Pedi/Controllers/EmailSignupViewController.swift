@@ -9,6 +9,7 @@
 import UIKit
 
 class EmailSignupViewController: UIViewController {
+  var isDriver: Bool?
   let email = PDTextField()
   let label = UILabel()
   let continueButton = UIButton()
