@@ -28,6 +28,12 @@
 		E55AEAC22259799800167B6D /* PDPersonData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55AEAC12259799800167B6D /* PDPersonData.swift */; };
 		E55AEAC8225BAEA000167B6D /* PDSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55AEAC7225BAEA000167B6D /* PDSessionManager.swift */; };
 		E55AEACA225BFE8F00167B6D /* PDUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55AEAC9225BFE8F00167B6D /* PDUser.swift */; };
+		E55AEACE225CFFC600167B6D /* AcceptRideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55AEACD225CFFC500167B6D /* AcceptRideViewController.swift */; };
+		E55AEAD0225FE33500167B6D /* DriverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55AEACF225FE33500167B6D /* DriverViewController.swift */; };
+		E55AEAD2225FE46A00167B6D /* PDDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55AEAD1225FE46A00167B6D /* PDDriver.swift */; };
+		E55AEAD422639B8400167B6D /* PDServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55AEAD322639B8300167B6D /* PDServer.swift */; };
+		E55AEAD622639DCC00167B6D /* LandingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55AEAD522639DCC00167B6D /* LandingViewController.swift */; };
+		E55AEAD822639F4200167B6D /* DriverOrUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55AEAD722639F4200167B6D /* DriverOrUserViewController.swift */; };
 		E5D8A5862257B9DB0084CDBE /* NameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D8A5852257B9DA0084CDBE /* NameViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +86,12 @@
 		E55AEAC12259799800167B6D /* PDPersonData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDPersonData.swift; sourceTree = "<group>"; };
 		E55AEAC7225BAEA000167B6D /* PDSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSessionManager.swift; sourceTree = "<group>"; };
 		E55AEAC9225BFE8F00167B6D /* PDUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDUser.swift; sourceTree = "<group>"; };
+		E55AEACD225CFFC500167B6D /* AcceptRideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptRideViewController.swift; sourceTree = "<group>"; };
+		E55AEACF225FE33500167B6D /* DriverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverViewController.swift; sourceTree = "<group>"; };
+		E55AEAD1225FE46A00167B6D /* PDDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDDriver.swift; sourceTree = "<group>"; };
+		E55AEAD322639B8300167B6D /* PDServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDServer.swift; sourceTree = "<group>"; };
+		E55AEAD522639DCC00167B6D /* LandingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingViewController.swift; sourceTree = "<group>"; };
+		E55AEAD722639F4200167B6D /* DriverOrUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverOrUserViewController.swift; sourceTree = "<group>"; };
 		E5D8A5852257B9DA0084CDBE /* NameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameViewController.swift; sourceTree = "<group>"; };
 		E9E53319A6E343293F74D61B /* Pods-PediUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PediUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PediUITests/Pods-PediUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		F0ED209E80C36F65CED9D52B /* Pods-PediTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PediTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PediTests/Pods-PediTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -195,6 +207,7 @@
 		6A2885A8224E870B00931A34 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				E55AEACC225CFF9B00167B6D /* Driver */,
 				E55AEACB225CDA1B00167B6D /* Rider */,
 				E55AEAC4225A6C5300167B6D /* Onboarding */,
 			);
@@ -217,6 +230,8 @@
 				E55AEAC12259799800167B6D /* PDPersonData.swift */,
 				E55AEAC7225BAEA000167B6D /* PDSessionManager.swift */,
 				E55AEAC9225BFE8F00167B6D /* PDUser.swift */,
+				E55AEAD1225FE46A00167B6D /* PDDriver.swift */,
+				E55AEAD322639B8300167B6D /* PDServer.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -227,6 +242,8 @@
 				E529F91522565BB7004735D6 /* EmailSignupViewController.swift */,
 				E529F91822569B63004735D6 /* PasswordViewController.swift */,
 				E5D8A5852257B9DA0084CDBE /* NameViewController.swift */,
+				E55AEAD522639DCC00167B6D /* LandingViewController.swift */,
+				E55AEAD722639F4200167B6D /* DriverOrUserViewController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -239,6 +256,15 @@
 				6A238EFF224F07BC00163FCC /* PreviewViewController.swift */,
 			);
 			path = Rider;
+			sourceTree = "<group>";
+		};
+		E55AEACC225CFF9B00167B6D /* Driver */ = {
+			isa = PBXGroup;
+			children = (
+				E55AEACD225CFFC500167B6D /* AcceptRideViewController.swift */,
+				E55AEACF225FE33500167B6D /* DriverViewController.swift */,
+			);
+			path = Driver;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -385,6 +411,8 @@
 				"${BUILT_PRODUCTS_DIR}/MapboxGeocoder.swift/MapboxGeocoder.framework",
 				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/Polyline/Polyline.framework",
+				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
+				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftLocation/SwiftLocation.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
@@ -397,6 +425,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxGeocoder.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Polyline.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftLocation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
@@ -471,15 +501,21 @@
 				6A10B4322242DBD40035D17B /* RequestRideViewController.swift in Sources */,
 				E55AEAC22259799800167B6D /* PDPersonData.swift in Sources */,
 				E529F91622565BB8004735D6 /* EmailSignupViewController.swift in Sources */,
+				E55AEAD2225FE46A00167B6D /* PDDriver.swift in Sources */,
 				E529F91922569B63004735D6 /* PasswordViewController.swift in Sources */,
+				E55AEAD0225FE33500167B6D /* DriverViewController.swift in Sources */,
 				6A2885AA224E87D900931A34 /* DestinationViewController.swift in Sources */,
+				E55AEAD422639B8400167B6D /* PDServer.swift in Sources */,
 				6A238F0222500DF000163FCC /* DestinationBar.swift in Sources */,
 				6A36244922444A7A00313FBA /* PDMap.swift in Sources */,
 				6A10B45F2242DEB90035D17B /* PDSearchField.swift in Sources */,
 				6A10B4302242DBD40035D17B /* AppDelegate.swift in Sources */,
+				E55AEAD822639F4200167B6D /* DriverOrUserViewController.swift in Sources */,
 				E55AEAC8225BAEA000167B6D /* PDSessionManager.swift in Sources */,
+				E55AEACE225CFFC600167B6D /* AcceptRideViewController.swift in Sources */,
 				6A362445224444E300313FBA /* Style.swift in Sources */,
 				6A238F00224F07BC00163FCC /* PreviewViewController.swift in Sources */,
+				E55AEAD622639DCC00167B6D /* LandingViewController.swift in Sources */,
 				E5D8A5862257B9DB0084CDBE /* NameViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

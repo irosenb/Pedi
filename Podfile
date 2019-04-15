@@ -10,6 +10,7 @@ target 'Pedi' do
   pod 'MapboxDirections.swift', '~> 0.27'
   pod 'Alamofire'
   pod 'ObjectMapper', '~> 3.4'
+  pod 'Socket.IO-Client-Swift', '~> 15.0.0'
   # Pods for Pedi
 
   target 'PediTests' do
