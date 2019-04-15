@@ -21,6 +21,8 @@ class PreviewViewController: UIViewController {
   let priceLabel = UILabel()
   let map = PDMap(frame: .zero)
   let directions = Directions.shared
+  let activityIndicator = UIActivityIndicatorView()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -49,6 +51,7 @@ class PreviewViewController: UIViewController {
     requestRide.setTitle("Request ride", for: .normal)
     requestRide.backgroundColor = Styles.Colors.purple
     requestRide.setTitleColor(.white, for: .normal)
+    requestRide.addTarget(self, action: #selector(getRide), for: .touchUpInside)
     view.addSubview(requestRide)
     
     priceLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -57,6 +60,10 @@ class PreviewViewController: UIViewController {
     priceLabel.text = "$\(price)"
     priceLabel.sizeToFit()
     view.addSubview(priceLabel)
+    
+    activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+    activityIndicator.hidesWhenStopped = true
+    view.addSubview(activityIndicator)
   }
   
   
@@ -73,6 +80,9 @@ class PreviewViewController: UIViewController {
     
     priceLabel.bottomAnchor.constraint(equalTo: requestRide.topAnchor, constant: -30).isActive = true
     priceLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+    
+    activityIndicator.centerXAnchor.constraint(equalTo: requestRide.centerXAnchor)
+    activityIndicator.centerYAnchor.constraint(equalTo: requestRide.centerYAnchor)
     
     map.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1).isActive = true
     map.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1).isActive = true
@@ -117,6 +127,17 @@ class PreviewViewController: UIViewController {
         self.map.setVisibleCoordinates(&routeCoordinates, count: route.coordinateCount, edgePadding: edge, animated: true)
         
       }
+    }
+  }
+  
+  @objc func getRide() {
+    guard let startPoint = currentLocation else { return }
+    guard let endPoint = destination?.location else { return }
+    
+    requestRide.setTitle("", for: .normal)
+    activityIndicator.startAnimating()
+    PDUser.requestRide(start: startPoint, destination: endPoint) { (data) in
+      
     }
   }
   
