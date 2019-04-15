@@ -9,6 +9,7 @@
 import UIKit
 import ObjectMapper
 import Alamofire
+import MapKit
 
 class PDUser: Mappable {
   var firstName: String?
@@ -25,10 +26,25 @@ class PDUser: Mappable {
   class func create(firstName: String, lastName: String, password: String, email: String, completionHandler: @escaping (_ response: [String: Any]?) -> Void) {
     let params = ["email": email, "password": password, "first_name": firstName, "last_name": lastName ]
     
-    Alamofire.request("https://api.ridepedi.com/users", method: .post, parameters: params, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+    Alamofire.request("\(PDServer.baseUrl)/users", method: .post, parameters: params, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
       if let data = response.result.value as? [String: Any] {
-        completionHandler(data);
-        return;
+        completionHandler(data)
+        return
+      }
+      
+      completionHandler(nil)
+    }
+  }
+  
+  class func requestRide(start: CLLocation, destination: CLLocation, completionHandler: @escaping (_ response: [String: Any]?) -> Void) {
+    guard let token = PDPersonData.authToken()
+      else { return }
+    
+    let params = ["start_latitude": start.coordinate.latitude, "start_longitude": start.coordinate.longitude, "destination_latitude": destination.coordinate.latitude, "destination_longitude": destination.coordinate.longitude]
+    Alamofire.request("\(self.baseUrl)/rides/request", method: .post, parameters: params, encoding: URLEncoding.default, headers: ["x-access-token": token]).responseJSON { (response) in
+      if let data = response.result.value as? [String: Any] {
+        completionHandler(data)
+        return
       }
       
       completionHandler(nil)

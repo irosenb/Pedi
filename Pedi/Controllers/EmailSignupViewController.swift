@@ -75,12 +75,15 @@ class EmailSignupViewController: UIViewController {
     
     let password = PasswordViewController()
     password.email = text
+    password.isDriver = isDriver
     navigationController?.pushViewController(password, animated: true)
   }
   
   @objc func keyboardWillShow(notification: Notification) {
     let frame = (notification.userInfo![UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+    continueBottomAnchor = continueButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
     continueBottomAnchor?.constant = -frame.height
+    continueBottomAnchor?.isActive = true
     view.setNeedsLayout()
   }
 }
