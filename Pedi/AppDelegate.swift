@@ -16,8 +16,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     window = UIWindow(frame: UIScreen.main.bounds)
     
-    let controller = RequestRideViewController()
-    let navController = UINavigationController(rootViewController: controller)
+    var controller: UIViewController?
+    
+    if PDPersonData.authToken() != nil {
+      controller = RequestRideViewController()
+    } else {
+      controller = LandingViewController()
+    }
+    
+    let navController = UINavigationController(rootViewController: controller!)
   
     window?.rootViewController = navController
     window?.makeKeyAndVisible()
