@@ -93,12 +93,26 @@ class NameViewController: UIViewController {
     if let first = firstName.text, let last = lastName.text, let pwd = password, let mail = email  {
       PDUser.create(firstName: first, lastName: last, password: pwd, email: mail) { (data) in
         self.loader.stopAnimating()
-        
+
         guard let token = data?["auth_token"] as? String else { return }
         PDPersonData.setAuthToken(token)
         
-        let requestRide = RequestRideViewController()
-        let nav = UINavigationController(rootViewController: requestRide)
+        guard let isDriver = data?["is_driver"] as? Bool else { return }
+        PDPersonData.setIsDriver(isDriver)
+        
+        guard let userId = data?["user_id"] as? String else { return }
+        PDPersonData.setUserId(userId)
+        
+        var controller: UIViewController?
+        
+        if isDriver {
+          controller = DriverViewController()
+        } else {
+          controller = RequestRideViewController()
+        }
+        
+        let nav = UINavigationController(rootViewController: controller!)
+        
         DispatchQueue.main.async {
           self.present(nav, animated: true, completion: nil)
         }

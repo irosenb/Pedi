@@ -19,7 +19,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var controller: UIViewController?
     
     if PDPersonData.authToken() != nil {
-      controller = RequestRideViewController()
+      if let isDriver = PDPersonData.isDriver(), isDriver {
+        controller = DriverViewController()
+      } else {
+        controller = RequestRideViewController()
+      }
     } else {
       controller = LandingViewController()
     }

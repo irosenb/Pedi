@@ -14,9 +14,19 @@ class PDPersonData: NSObject {
     defaults.set(object, forKey: key)
   }
   
+  class func saveBool(value: Bool, key: String) {
+    let defaults = UserDefaults.standard
+    defaults.set(value, forKey: key)
+  }
+  
   class func getObject(forKey key: String) -> Any? {
     let defaults = UserDefaults.standard
     return defaults.object(forKey: key)
+  }
+  
+  class func getBool(forKey key: String) -> Bool? {
+    let defaults = UserDefaults.standard
+    return defaults.bool(forKey: key)
   }
   
   class func setAuthToken(_ token: String) {
@@ -53,5 +63,23 @@ class PDPersonData: NSObject {
   class func email() -> String? {
     guard let email = getObject(forKey: "email") as? String else { return nil }
     return email
+  }
+  
+  class func setIsDriver(_ isDriver: Bool) {
+    saveBool(value: isDriver, key: "is_driver")
+  }
+  
+  class func isDriver() -> Bool? {
+    guard let isDriver = getBool(forKey: "is_driver") else { return nil }
+    return isDriver
+  }
+  
+  class func setUserId(_ userId: String) {
+    save(object: userId, key: "user_id")
+  }
+  
+  class func userId() -> String? {
+    guard let userId = getObject(forKey: "user_id") as? String else { return nil }
+    return userId
   }
 }
