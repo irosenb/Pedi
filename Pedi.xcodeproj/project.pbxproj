@@ -34,6 +34,8 @@
 		E55AEAD422639B8400167B6D /* PDServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55AEAD322639B8300167B6D /* PDServer.swift */; };
 		E55AEAD622639DCC00167B6D /* LandingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55AEAD522639DCC00167B6D /* LandingViewController.swift */; };
 		E55AEAD822639F4200167B6D /* DriverOrUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55AEAD722639F4200167B6D /* DriverOrUserViewController.swift */; };
+		E55AEADA2264D7F700167B6D /* DriverDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55AEAD92264D7F700167B6D /* DriverDashboard.swift */; };
+		E55AEADC22664A3600167B6D /* PDRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55AEADB22664A3600167B6D /* PDRoute.swift */; };
 		E5D8A5862257B9DB0084CDBE /* NameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D8A5852257B9DA0084CDBE /* NameViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -92,6 +94,8 @@
 		E55AEAD322639B8300167B6D /* PDServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDServer.swift; sourceTree = "<group>"; };
 		E55AEAD522639DCC00167B6D /* LandingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingViewController.swift; sourceTree = "<group>"; };
 		E55AEAD722639F4200167B6D /* DriverOrUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverOrUserViewController.swift; sourceTree = "<group>"; };
+		E55AEAD92264D7F700167B6D /* DriverDashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverDashboard.swift; sourceTree = "<group>"; };
+		E55AEADB22664A3600167B6D /* PDRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDRoute.swift; sourceTree = "<group>"; };
 		E5D8A5852257B9DA0084CDBE /* NameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameViewController.swift; sourceTree = "<group>"; };
 		E9E53319A6E343293F74D61B /* Pods-PediUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PediUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PediUITests/Pods-PediUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		F0ED209E80C36F65CED9D52B /* Pods-PediTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PediTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PediTests/Pods-PediTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -200,6 +204,7 @@
 				6A10B45E2242DEB90035D17B /* PDSearchField.swift */,
 				6A2885AB224EDA9100931A34 /* SearchResultTableViewCell.swift */,
 				6A238F0122500DEF00163FCC /* DestinationBar.swift */,
+				E55AEAD92264D7F700167B6D /* DriverDashboard.swift */,
 			);
 			path = "Views ";
 			sourceTree = "<group>";
@@ -232,6 +237,7 @@
 				E55AEAC9225BFE8F00167B6D /* PDUser.swift */,
 				E55AEAD1225FE46A00167B6D /* PDDriver.swift */,
 				E55AEAD322639B8300167B6D /* PDServer.swift */,
+				E55AEADB22664A3600167B6D /* PDRoute.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -500,12 +506,14 @@
 				6A2885AC224EDA9100931A34 /* SearchResultTableViewCell.swift in Sources */,
 				6A10B4322242DBD40035D17B /* RequestRideViewController.swift in Sources */,
 				E55AEAC22259799800167B6D /* PDPersonData.swift in Sources */,
+				E55AEADA2264D7F700167B6D /* DriverDashboard.swift in Sources */,
 				E529F91622565BB8004735D6 /* EmailSignupViewController.swift in Sources */,
 				E55AEAD2225FE46A00167B6D /* PDDriver.swift in Sources */,
 				E529F91922569B63004735D6 /* PasswordViewController.swift in Sources */,
 				E55AEAD0225FE33500167B6D /* DriverViewController.swift in Sources */,
 				6A2885AA224E87D900931A34 /* DestinationViewController.swift in Sources */,
 				E55AEAD422639B8400167B6D /* PDServer.swift in Sources */,
+				E55AEADC22664A3600167B6D /* PDRoute.swift in Sources */,
 				6A238F0222500DF000163FCC /* DestinationBar.swift in Sources */,
 				6A36244922444A7A00313FBA /* PDMap.swift in Sources */,
 				6A10B45F2242DEB90035D17B /* PDSearchField.swift in Sources */,
