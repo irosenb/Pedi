@@ -10,6 +10,7 @@ import UIKit
 import Mapbox
 import MapboxGeocoder
 import MapboxDirections
+import SocketIO
 
 class PreviewViewController: UIViewController {
   var destination: Placemark?
@@ -22,9 +23,16 @@ class PreviewViewController: UIViewController {
   let map = PDMap(frame: .zero)
   let directions = Directions.shared
   let activityIndicator = UIActivityIndicatorView()
+  let manager = SocketManager(socketURL: URL(string: PDServer.baseUrl)!)
+  var socket: SocketIOClient!
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    guard let authToken = PDPersonData.authToken() else { return }
+    manager.config = [.extraHeaders(["x-access-token": authToken])]
+    
+    socket = manager.defaultSocket
     
     navigationController?.navigationBar.isHidden = true
 
@@ -81,8 +89,8 @@ class PreviewViewController: UIViewController {
     priceLabel.bottomAnchor.constraint(equalTo: requestRide.topAnchor, constant: -30).isActive = true
     priceLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
     
-    activityIndicator.centerXAnchor.constraint(equalTo: requestRide.centerXAnchor)
-    activityIndicator.centerYAnchor.constraint(equalTo: requestRide.centerYAnchor)
+    activityIndicator.centerXAnchor.constraint(equalTo: requestRide.centerXAnchor).isActive = true
+    activityIndicator.centerYAnchor.constraint(equalTo: requestRide.centerYAnchor).isActive = true
     
     map.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1).isActive = true
     map.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1).isActive = true
@@ -136,8 +144,15 @@ class PreviewViewController: UIViewController {
     
     requestRide.setTitle("", for: .normal)
     activityIndicator.startAnimating()
-    PDUser.requestRide(start: startPoint, destination: endPoint) { (data) in
-      
+    
+    guard let userId = PDPersonData.userId() else { return }
+    
+    let params: [String: Any] = ["start_latitude": startPoint.coordinate.latitude, "start_longitude": startPoint.coordinate.longitude, "destination_latitude": endPoint.coordinate.latitude, "destination_longitude": endPoint.coordinate.longitude, "user_id": userId]
+    
+    socket.connect()
+    
+    socket.on(clientEvent: .connect) { (data, ack) in
+      self.socket.emit("rideRequest", params)
     }
   }
   

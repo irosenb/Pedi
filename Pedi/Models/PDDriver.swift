@@ -11,6 +11,14 @@ import ObjectMapper
 import Alamofire
 
 class PDDriver: Mappable {
+  enum State {
+    case inactive
+    case active
+    case enRoute
+    
+  }
+  var state: State? 
+  
   required init?(map: Map) {
     
   }
@@ -30,6 +38,25 @@ class PDDriver: Mappable {
       
       completionHandler(nil)
     }
+  }
+  
+  class func toggleDriving(isOn: Bool, completionHandler: @escaping (_ response: [String: Any]?) -> Void) {
+    
+    guard let token = PDPersonData.authToken() else { return }
+    
+    Alamofire.request("\(PDServer.baseUrl)/drivers/toggle", method: .put, parameters: ["is_driving": isOn], encoding: URLEncoding.default, headers: ["x-access-token": token]).responseJSON { (response) in
+      if let data = response.result.value as? [String: Any] {
+        completionHandler(data)
+        return
+      }
+      
+      completionHandler(nil)
+    }
+  }
+  
+  class func acceptRide(id: Int, completionHandler: @escaping (_ response: [String: Any]?) -> Void) {
+    
+    
   }
   
 }
