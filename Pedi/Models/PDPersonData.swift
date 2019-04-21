@@ -82,4 +82,24 @@ class PDPersonData: NSObject {
     guard let userId = getObject(forKey: "user_id") as? String else { return nil }
     return userId
   }
+  
+  class func setDriverId(_ userId: String) {
+    save(object: userId, key: "driver_id")
+  }
+  
+  class func driverId() -> String? {
+    guard let driverId = getObject(forKey: "driver_id") as? String else { return nil }
+    return driverId
+  }
+  
+  class func setIsDriving(_ isDriving: Bool) {
+    saveBool(value: isDriving, key: "is_driving")
+  }
+  
+  class func isDriving() -> Bool? {
+    guard let isDriving = getBool(forKey: "is_driving") as? Bool else { return nil }
+    return isDriving
+  }
+  
+  
 }
