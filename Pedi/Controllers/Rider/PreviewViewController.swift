@@ -25,6 +25,7 @@ class PreviewViewController: UIViewController {
   let activityIndicator = UIActivityIndicatorView()
   let manager = SocketManager(socketURL: URL(string: PDServer.baseUrl)!)
   var socket: SocketIOClient!
+  var rideId: Int?
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -33,6 +34,7 @@ class PreviewViewController: UIViewController {
     manager.config = [.extraHeaders(["x-access-token": authToken])]
     
     socket = manager.defaultSocket
+    socket.connect()
     
     navigationController?.navigationBar.isHidden = true
 
@@ -149,10 +151,23 @@ class PreviewViewController: UIViewController {
     
     let params: [String: Any] = ["start_latitude": startPoint.coordinate.latitude, "start_longitude": startPoint.coordinate.longitude, "destination_latitude": endPoint.coordinate.latitude, "destination_longitude": endPoint.coordinate.longitude, "user_id": userId]
     
-    socket.connect()
+    self.socket.emit("rideRequest", params)
+  }
+  
+  func monitorAcceptedRide() {
+    self.socket.on("accept") { (data, ack) in
+      guard let params = data as? [[String: Any]] else { return }
+      if let ride = self.rideId, let acceptedRide = params[0]["ride_id"] as? Int, acceptedRide == ride {
+        
+      }
+    }
     
-    socket.on(clientEvent: .connect) { (data, ack) in
-      self.socket.emit("rideRequest", params)
+    self.socket.on("rideLocation") { (data, ack) in
+      guard let loc = data as? [[String: Any]] else { return }
+      if let latitude = loc[0]["latitude"], let longitude = loc[0]["longitude"] {
+        
+      }
+      
     }
   }
   
