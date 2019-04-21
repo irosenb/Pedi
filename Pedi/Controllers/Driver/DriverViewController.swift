@@ -20,6 +20,7 @@ class DriverViewController: UIViewController {
   let directions = Directions.shared
   var currentLocation: CLLocation?
   let acceptButton = UIButton()
+  var rideId: Int?
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -28,6 +29,7 @@ class DriverViewController: UIViewController {
     manager.config = [.extraHeaders(["x-access-token": authToken])]
     
     socket = manager.defaultSocket
+    socket.connect()
     
     navigationController?.navigationBar.isHidden = true
     
@@ -73,13 +75,7 @@ class DriverViewController: UIViewController {
     
     PDDriver.toggleDriving(isOn: isDriving) { (data) in
       if (isDriving) {
-        self.socket.connect()
-        self.socket.on(clientEvent: .connect, callback: { (data, ack) in
-          print("Socket connected")
-  
-          self.monitorRideRequest()
-        })
-        
+       self.monitorRideRequest()
       }
     }
   }
@@ -91,6 +87,9 @@ class DriverViewController: UIViewController {
       guard let latitude = params[0]["start_latitude"] as? Double else { return }
       guard let longitude = params[0]["start_longitude"] as? Double else { return }
       
+      guard let rideId = params[0]["ride_id"] as? Int else { return }
+      self.rideId = rideId
+      
       let location = CLLocation(latitude: latitude as! CLLocationDegrees, longitude: longitude as! CLLocationDegrees)
       
       self.calculateDirections(destination: location)
@@ -100,10 +99,19 @@ class DriverViewController: UIViewController {
   }
   
   @objc func acceptRide() {
-    self.socket.emit("acceptRide", with: [])
+    guard let ride = rideId else { return }
+    self.socket.emit("acceptRide", with: [["ride_id": ride]])
     
     self.acceptButton.setTitle("Tap to arrive", for: .normal)
     self.acceptButton.removeTarget(self, action: nil, for: .touchUpInside)
+    self.acceptButton.addTarget(self, action: #selector(arrive), for: .touchUpInside)
+    
+    Locator.subscribePosition(accuracy: .room, onUpdate: { (location) -> (Void) in
+      self.currentLocation = location
+      self.socket.emit("rideLocation", with: [["ride_id": ride, "latitude": location.coordinate.latitude, "longitude": location.coordinate.longitude]])
+    }) { (error, location) -> (Void) in
+    }
+    
   }
   
   func getLocation() {
@@ -120,6 +128,10 @@ class DriverViewController: UIViewController {
     }
   }
   
+  @objc func arrive() {
+    guard let ride = rideId else { return }
+    self.socket.emit("arrived", ["ride_id": ride])
+  }
   
   func calculateDirections(destination: CLLocation) {
     guard let startPoint = map.userLocation?.location else { return }

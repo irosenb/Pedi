@@ -15,7 +15,8 @@ class PDDriver: Mappable {
     case inactive
     case active
     case enRoute
-    
+    case arrived
+    case dropOff
   }
   var state: State? 
   
