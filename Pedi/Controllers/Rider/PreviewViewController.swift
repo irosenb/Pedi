@@ -150,24 +150,60 @@ class PreviewViewController: UIViewController {
     guard let userId = PDPersonData.userId() else { return }
     
     let params: [String: Any] = ["start_latitude": startPoint.coordinate.latitude, "start_longitude": startPoint.coordinate.longitude, "destination_latitude": endPoint.coordinate.latitude, "destination_longitude": endPoint.coordinate.longitude, "user_id": userId]
-    
     self.socket.emit("rideRequest", params)
+    self.monitorAcceptedRide()
   }
   
   func monitorAcceptedRide() {
-    self.socket.on("accept") { (data, ack) in
+    self.socket.on("rideRequest") { (data, ack) in
       guard let params = data as? [[String: Any]] else { return }
-      if let ride = self.rideId, let acceptedRide = params[0]["ride_id"] as? Int, acceptedRide == ride {
-        
+      guard let rideId = params[0]["ride_id"] as? Int else { return }
+      
+      guard self.rideId == nil else {
+        return
       }
+      
+      self.rideId = rideId
     }
     
     self.socket.on("rideLocation") { (data, ack) in
-      guard let loc = data as? [[String: Any]] else { return }
-      if let latitude = loc[0]["latitude"], let longitude = loc[0]["longitude"] {
-        
-      }
+      self.requestRide.isHidden = true
+      self.activityIndicator.stopAnimating()
+
+      guard let annotations = self.map.annotations else { return }
+      self.map.removeAnnotations(annotations)
       
+      guard let loc = data as? [[String: Any]] else { return }
+      guard let latitude = loc[0]["latitude"] as? CLLocationDegrees else { return }
+      guard let longitude = loc[0]["longitude"] as? CLLocationDegrees else { return }
+      guard let acceptedRide = loc[0]["ride_id"] as? Int else { return }
+      
+      if acceptedRide == self.rideId {
+        let startPoint = CLLocation(latitude: latitude, longitude: longitude)
+        guard let destination = self.currentLocation else { return }
+        
+        PDRoute.calculate(start: startPoint, destination: destination, completionHandler: { (route, error) in
+          guard let rte = route else {
+            // There is an error
+            return
+          }
+          let distanceFormatter = LengthFormatter()
+          let formattedDistance = distanceFormatter.string(fromMeters: rte.distance)
+          
+          let travelTimeFormatter = DateComponentsFormatter()
+          travelTimeFormatter.unitsStyle = .short
+          let formattedTravelTime = travelTimeFormatter.string(from: rte.expectedTravelTime)
+          
+          var routeCoordinates = rte.coordinates!
+          let routeLine = MGLPolyline(coordinates: &routeCoordinates, count: rte.coordinateCount)
+          
+          // Add the polyline to the map and fit the viewport to the polyline.
+          let edge = UIEdgeInsets(top: 60, left: 10, bottom: 60, right: 10)
+          
+          self.map.addAnnotation(routeLine)
+          self.map.setVisibleCoordinates(&routeCoordinates, count: rte.coordinateCount, edgePadding: edge, animated: true)
+        })
+      }
     }
   }
   
