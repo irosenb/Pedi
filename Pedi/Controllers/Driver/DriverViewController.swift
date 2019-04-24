@@ -21,6 +21,9 @@ class DriverViewController: UIViewController {
   var currentLocation: CLLocation?
   let acceptButton = UIButton()
   var rideId: Int?
+  var destination: CLLocation?
+  var declinedRides: [Int] = []
+  let declineButton = UIButton()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -54,6 +57,13 @@ class DriverViewController: UIViewController {
     acceptButton.setTitle("Accept Ride", for: .normal)
     acceptButton.isHidden = true
     view.addSubview(acceptButton)
+    
+    declineButton.translatesAutoresizingMaskIntoConstraints = false
+    declineButton.addTarget(self, action: #selector(declineRide), for: .touchUpInside)
+    declineButton.setTitle("X", for: .normal)
+    declineButton.backgroundColor = Styles.Colors.darkPurple
+    declineButton.isHidden = true
+    view.addSubview(declineButton)
   }
   
   func addConstraints() {
@@ -68,6 +78,11 @@ class DriverViewController: UIViewController {
     acceptButton.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
     acceptButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
     
+    declineButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 70).isActive = true
+    declineButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
+    declineButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+    declineButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+    
   }
   
   @objc func toggleDriving() {
@@ -80,6 +95,17 @@ class DriverViewController: UIViewController {
     }
   }
   
+  @objc func declineRide() {
+    acceptButton.isHidden = true
+    declineButton.isHidden = true
+    
+    guard let ride = rideId else { return }
+    declinedRides.append(ride)
+    
+    guard let annotations = map.annotations else { return }
+    map.removeAnnotations(annotations)
+  }
+  
   func monitorRideRequest() {
     self.socket.on("rideRequest", callback: { (data, ack) in
       print(data);
@@ -88,27 +114,52 @@ class DriverViewController: UIViewController {
       guard let longitude = params[0]["start_longitude"] as? Double else { return }
       
       guard let rideId = params[0]["ride_id"] as? Int else { return }
+      guard self.rideId == nil else { return }
+      guard !self.declinedRides.contains(rideId) else { return }
+      
       self.rideId = rideId
       
       let location = CLLocation(latitude: latitude as! CLLocationDegrees, longitude: longitude as! CLLocationDegrees)
       
+      self.destination = location
       self.calculateDirections(destination: location)
       
       self.acceptButton.isHidden = false
+      self.declineButton.isHidden = false
+      
     })
   }
   
   @objc func acceptRide() {
     guard let ride = rideId else { return }
-    self.socket.emit("acceptRide", with: [["ride_id": ride]])
+    guard let driverId = PDPersonData.driverId() else { return }
+    self.socket.emit("acceptRide", with: [["ride_id": ride, "driver_id": driverId]])
     
     self.acceptButton.setTitle("Tap to arrive", for: .normal)
     self.acceptButton.removeTarget(self, action: nil, for: .touchUpInside)
     self.acceptButton.addTarget(self, action: #selector(arrive), for: .touchUpInside)
     
+    self.declineButton.isHidden = true
+    
     Locator.subscribePosition(accuracy: .room, onUpdate: { (location) -> (Void) in
       self.currentLocation = location
       self.socket.emit("rideLocation", with: [["ride_id": ride, "latitude": location.coordinate.latitude, "longitude": location.coordinate.longitude]])
+      
+      PDRoute.calculate(start: location, destination: self.destination!, completionHandler: { (rte, err) in
+        if err != nil {
+          return
+        }
+        
+        guard let route = rte else { return }
+        let routeLine = MGLPolyline(coordinates: route.coordinates!, count: route.coordinateCount)
+        
+        let edge = UIEdgeInsets(top: 60, left: 10, bottom: 60, right: 10)
+        
+        self.map.removeAnnotations(self.map.annotations!)
+        self.map.addAnnotation(routeLine)
+        
+        self.map.setVisibleCoordinates(route.coordinates!, count: route.coordinateCount, edgePadding: edge, animated: true)
+      })
     }) { (error, location) -> (Void) in
     }
     
@@ -130,7 +181,27 @@ class DriverViewController: UIViewController {
   
   @objc func arrive() {
     guard let ride = rideId else { return }
-    self.socket.emit("arrived", ["ride_id": ride])
+    socket.emit("arrived", ["ride_id": ride])
+    
+    acceptButton.removeTarget(self, action: nil, for: .touchUpInside)
+    acceptButton.addTarget(self, action: #selector(pickUp), for: .touchUpInside)
+    acceptButton.setTitle("Pick up", for: .normal)
+    
+    
+  }
+  
+  @objc func pickUp() {
+    guard let ride = rideId else { return }
+    socket.emit("pickUp", ["ride_id": ride])
+    
+    acceptButton.removeTarget(self, action: nil, for: .touchUpInside)
+    acceptButton.addTarget(self, action: #selector(dropOff), for: .touchUpInside)
+    acceptButton.setTitle("Drop off", for: .normal)
+  }
+  
+  @objc func dropOff() {
+    acceptButton.isHidden = true
+    
   }
   
   func calculateDirections(destination: CLLocation) {
@@ -173,15 +244,4 @@ class DriverViewController: UIViewController {
       }
     }
   }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
