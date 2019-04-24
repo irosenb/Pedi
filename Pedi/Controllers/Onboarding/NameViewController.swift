@@ -116,7 +116,7 @@ class NameViewController: UIViewController {
     guard let userId = data["user_id"] as? String else { return }
     PDPersonData.setUserId(userId)
     
-    if let driverId = data["driver_id"] as? String {
+    if let driverId = data["driver_id"] as? Int {
       PDPersonData.setDriverId(driverId)
     }
     
