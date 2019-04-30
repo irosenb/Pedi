@@ -22,8 +22,13 @@ class DriverViewController: UIViewController {
   let acceptButton = UIButton()
   var rideId: Int?
   var destination: CLLocation?
+  var pickup: CLLocation?
   var declinedRides: [Int] = []
   let declineButton = UIButton()
+  var pickedUp = false
+  var droppedOff = false
+  var locationSubscription: LocationRequest?
+  var subscription: LocationRequest?
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -104,6 +109,8 @@ class DriverViewController: UIViewController {
     
     guard let annotations = map.annotations else { return }
     map.removeAnnotations(annotations)
+    
+    self.rideId = nil
   }
   
   func monitorRideRequest() {
@@ -113,16 +120,19 @@ class DriverViewController: UIViewController {
       guard let latitude = params[0]["start_latitude"] as? Double else { return }
       guard let longitude = params[0]["start_longitude"] as? Double else { return }
       
+      guard let destinationLatitude = params[0]["destination_latitude"] as? Double else { return }
+      guard let destinationLongitude = params[0]["destination_longitude"] as? Double else { return }
+      
       guard let rideId = params[0]["ride_id"] as? Int else { return }
       guard self.rideId == nil else { return }
       guard !self.declinedRides.contains(rideId) else { return }
       
       self.rideId = rideId
       
-      let location = CLLocation(latitude: latitude as! CLLocationDegrees, longitude: longitude as! CLLocationDegrees)
+      self.destination = CLLocation(latitude: destinationLatitude, longitude: destinationLongitude)
+      self.pickup = CLLocation(latitude: latitude as! CLLocationDegrees, longitude: longitude as! CLLocationDegrees)
       
-      self.destination = location
-      self.calculateDirections(destination: location)
+      self.calculateDirections(destination: self.pickup!)
       
       self.acceptButton.isHidden = false
       self.declineButton.isHidden = false
@@ -141,11 +151,14 @@ class DriverViewController: UIViewController {
     
     self.declineButton.isHidden = true
     
-    Locator.subscribePosition(accuracy: .room, onUpdate: { (location) -> (Void) in
+    self.locationSubscription = Locator.subscribePosition(accuracy: .room, onUpdate: { (location) -> (Void) in
       self.currentLocation = location
+      guard !self.pickedUp else {
+        return
+      }
       self.socket.emit("rideLocation", with: [["ride_id": ride, "latitude": location.coordinate.latitude, "longitude": location.coordinate.longitude]])
       
-      PDRoute.calculate(start: location, destination: self.destination!, completionHandler: { (rte, err) in
+      PDRoute.calculate(start: location, destination: self.pickup!, completionHandler: { (rte, err) in
         if err != nil {
           return
         }
@@ -170,12 +183,11 @@ class DriverViewController: UIViewController {
       return
     }
     
-    Locator.currentPosition(accuracy: .block, onSuccess: { (location) -> (Void) in
+    Locator.currentPosition(accuracy: .room, onSuccess: { (location) -> (Void) in
       self.currentLocation = location
       self.map.setCenter(location.coordinate, zoomLevel: 14, animated: true)
     }) { (error, location) -> (Void) in
-      //      self.showError(error: error)
-      print("failed: \(error.localizedDescription)")
+      
     }
   }
   
@@ -192,15 +204,43 @@ class DriverViewController: UIViewController {
   
   @objc func pickUp() {
     guard let ride = rideId else { return }
+    self.pickedUp = true
     socket.emit("pickUp", ["ride_id": ride])
     
     acceptButton.removeTarget(self, action: nil, for: .touchUpInside)
     acceptButton.addTarget(self, action: #selector(dropOff), for: .touchUpInside)
     acceptButton.setTitle("Drop off", for: .normal)
+    
+    self.subscription = Locator.subscribePosition(accuracy: .room, onUpdate: { (location) -> (Void) in
+      PDRoute.calculate(start: location, destination: self.destination!) { (rte, error) in
+        guard let route = rte else { return }
+        let routeLine = MGLPolyline(coordinates: route.coordinates!, count: route.coordinateCount)
+        
+        let edge = UIEdgeInsets(top: 60, left: 10, bottom: 60, right: 10)
+        
+        if let annotations = self.map.annotations {
+          self.map.removeAnnotations(annotations)
+        }
+        
+        self.map.addAnnotation(routeLine)
+        self.map.setVisibleCoordinates(route.coordinates!, count: route.coordinateCount, edgePadding: edge, animated: true)
+      }
+    }) { (error, location) -> (Void) in
+      
+    }
+    
   }
   
   @objc func dropOff() {
+    guard let ride = rideId else { return }
     acceptButton.isHidden = true
+    
+    self.socket.emit("dropOff", ["ride_id": ride])
+    
+    Locator.stopRequest(subscription!)
+    Locator.stopRequest(locationSubscription!)
+    
+    self.rideId = nil
     
   }
   
