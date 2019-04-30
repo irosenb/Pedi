@@ -12,6 +12,7 @@ import Alamofire
 
 class PDDriver: Mappable {
   enum State {
+    case requested
     case inactive
     case active
     case enRoute

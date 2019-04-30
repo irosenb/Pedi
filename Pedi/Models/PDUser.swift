@@ -48,4 +48,18 @@ class PDUser: Mappable {
 //      completionHandler(nil)
 //    }
   }
+  
+  class func checkPrice(eta: Double, distance: Double, completionHandler: @escaping (_ response: [String: Any]?) -> Void) {
+    guard let token = PDPersonData.authToken() else { return }
+    let params = ["eta": eta, "distance": distance]
+    
+    Alamofire.request("\(PDServer.baseUrl)/rides/price", method: .get, parameters: params, encoding: URLEncoding.default, headers: ["x-session-token": token]).responseJSON { (response) in
+      if let data = response.result.value as? [String: Any] {
+        completionHandler(data)
+        return
+      }
+
+      completionHandler(nil)
+    }
+  }
 }

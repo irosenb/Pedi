@@ -11,12 +11,13 @@ import Mapbox
 import MapboxGeocoder
 import MapboxDirections
 import SocketIO
+import SwiftLocation
 
 class PreviewViewController: UIViewController {
   var destination: Placemark?
   var currentLocation: CLLocation?
   var start: Placemark?
-  var price: Double = 30
+  var price: Double?
   let destinationBar = DestinationBar()
   let requestRide = UIButton()
   let priceLabel = UILabel()
@@ -26,6 +27,9 @@ class PreviewViewController: UIViewController {
   let manager = SocketManager(socketURL: URL(string: PDServer.baseUrl)!)
   var socket: SocketIOClient!
   var rideId: Int?
+  var estimatedTime: TimeInterval?
+  var distance: CLLocationDistance?
+  var subscription: LocationRequest?
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -58,7 +62,7 @@ class PreviewViewController: UIViewController {
     view.addSubview(destinationBar)
     
     requestRide.translatesAutoresizingMaskIntoConstraints = false
-    requestRide.setTitle("Request ride", for: .normal)
+    requestRide.setTitle("", for: .normal)
     requestRide.backgroundColor = Styles.Colors.purple
     requestRide.setTitleColor(.white, for: .normal)
     requestRide.addTarget(self, action: #selector(getRide), for: .touchUpInside)
@@ -67,8 +71,8 @@ class PreviewViewController: UIViewController {
     priceLabel.translatesAutoresizingMaskIntoConstraints = false
     priceLabel.font = UIFont.systemFont(ofSize: 30)
     priceLabel.textColor = Styles.Colors.purple
-    priceLabel.text = "$\(price)"
     priceLabel.sizeToFit()
+    priceLabel.isHidden = true
     view.addSubview(priceLabel)
     
     activityIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -98,6 +102,24 @@ class PreviewViewController: UIViewController {
     map.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1).isActive = true
   }
   
+  func getPrice(eta: Double, distance: Double) {
+    activityIndicator.startAnimating()
+    
+    requestRide.setTitle("", for: .normal)
+    requestRide.isEnabled = false
+    
+    PDUser.checkPrice(eta: eta, distance: distance) { (data) in
+      guard let result = data else { return }
+      guard let price = result["price"] as? Double else { return }
+      
+      self.price = price
+      
+      self.requestRide.isEnabled = true
+      self.activityIndicator.stopAnimating()
+      self.requestRide.setTitle("$\(price) • Request ride", for: .normal)
+    }
+  }
+  
   func calculateDirections() {
     guard let startPoint = currentLocation else { return }
     guard let endPoint = destination?.location else { return }
@@ -125,6 +147,11 @@ class PreviewViewController: UIViewController {
         travelTimeFormatter.unitsStyle = .short
         let formattedTravelTime = travelTimeFormatter.string(from: route.expectedTravelTime)
         
+        self.distance = route.distance
+        self.estimatedTime = route.expectedTravelTime
+        
+        self.getPrice(eta: self.estimatedTime!, distance: self.distance!)
+        
         print("Distance: \(formattedDistance); ETA: \(formattedTravelTime!)")
         
         var routeCoordinates = route.coordinates!
@@ -148,12 +175,27 @@ class PreviewViewController: UIViewController {
     activityIndicator.startAnimating()
     
     guard let userId = PDPersonData.userId() else { return }
+    guard let eta = estimatedTime else { return }
+    guard let dist = distance else { return }
     
-    let params: [String: Any] = ["start_latitude": startPoint.coordinate.latitude, "start_longitude": startPoint.coordinate.longitude, "destination_latitude": endPoint.coordinate.latitude, "destination_longitude": endPoint.coordinate.longitude, "user_id": userId]
+    let params: [String: Any] = [
+      "start_latitude": startPoint.coordinate.latitude,
+      "start_longitude": startPoint.coordinate.longitude,
+      "destination_latitude": endPoint.coordinate.latitude,
+      "destination_longitude": endPoint.coordinate.longitude,
+      "user_id": userId,
+      "estimated_time": eta,
+      "distance": dist,
+      "price": self.price
+    ]
+    
     self.socket.emit("rideRequest", params)
+    
     self.monitorAcceptedRide()
+    self.monitorPickUp()
+    self.monitorDropOff()
   }
-  
+
   func monitorAcceptedRide() {
     self.socket.on("rideRequest") { (data, ack) in
       guard let params = data as? [[String: Any]] else { return }
@@ -204,6 +246,55 @@ class PreviewViewController: UIViewController {
           self.map.setVisibleCoordinates(&routeCoordinates, count: rte.coordinateCount, edgePadding: edge, animated: true)
         })
       }
+    }
+  }
+  
+  func monitorPickUp() {
+    self.socket.on("pickUp") { (data, ack) in
+      guard let result = data as? [[String: Any]] else { return }
+      guard let coordinates = result[0]["destination"] as? [Double] else { return }
+      
+      // Make sure it's the same ride
+      guard let pickupRide = result[0]["id"] as? Int else { return }
+      guard let ride = self.rideId else { return }
+      guard pickupRide == ride else { return }
+      
+      let destination = CLLocation(latitude: coordinates[0], longitude: coordinates[1])
+      
+      Locator.subscribePosition(accuracy: .room, onUpdate: { (location) -> (Void) in
+        self.currentLocation = location
+        PDRoute.calculate(start: location, destination: destination, completionHandler: { (route, err) in
+          guard let rte = route else { return }
+         
+          var routeCoordinates = rte.coordinates!
+          let routeLine = MGLPolyline(coordinates: &routeCoordinates, count: rte.coordinateCount)
+          
+          // Add the polyline to the map and fit the viewport to the polyline.
+          let edge = UIEdgeInsets(top: 60, left: 10, bottom: 60, right: 10)
+          guard let annotations = self.map.annotations else { return }
+          self.map.removeAnnotations(annotations)
+          
+          self.map.addAnnotation(routeLine)
+          self.map.setVisibleCoordinates(&routeCoordinates, count: rte.coordinateCount, edgePadding: edge, animated: true)
+        })
+      }, onFail: { (err, location) -> (Void) in
+        
+      })
+      
+    }
+  }
+  
+  func monitorDropOff() {
+    self.socket.on("dropOff") { (data, ack) in
+      guard let result = data as? [[String: Any]] else { return }
+      
+      // Make sure it's the same ride
+      guard let pickupRide = result[0]["id"] as? Int else { return }
+      guard let ride = self.rideId else { return }
+      guard pickupRide == ride else { return }
+      
+      self.map.removeAnnotations(self.map.annotations!)
+      
     }
   }
   
