@@ -43,13 +43,13 @@ class DestinationBar: UIView {
   func constrain() {
     start.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
     start.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0).isActive = true
-
-    destination.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0).isActive = true
-    destination.rightAnchor.constraint(equalTo: rightAnchor, constant: -15).isActive = true
     
     arrow.widthAnchor.constraint(equalToConstant: 27).isActive = true
     arrow.heightAnchor.constraint(equalToConstant: 12).isActive = true
     arrow.leftAnchor.constraint(equalTo: start.rightAnchor, constant: 9).isActive = true
     arrow.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0).isActive = true
+    
+    destination.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0).isActive = true
+    destination.leftAnchor.constraint(equalTo: arrow.rightAnchor, constant: 10).isActive = true
   }
 }
