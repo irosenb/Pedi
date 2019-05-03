@@ -108,6 +108,9 @@ class PreviewViewController: UIViewController {
     requestRide.setTitle("", for: .normal)
     requestRide.isEnabled = false
     
+    self.estimatedTime = eta
+    self.distance = distance
+    
     PDUser.checkPrice(eta: eta, distance: distance) { (data) in
       guard let result = data else { return }
       guard let price = result["price"] as? Double else { return }
@@ -139,30 +142,8 @@ class PreviewViewController: UIViewController {
       
       if let route = routes?.first, let leg = route.legs.first {
         print("Route via \(leg):")
-        
-        let distanceFormatter = LengthFormatter()
-        let formattedDistance = distanceFormatter.string(fromMeters: route.distance)
-        
-        let travelTimeFormatter = DateComponentsFormatter()
-        travelTimeFormatter.unitsStyle = .short
-        let formattedTravelTime = travelTimeFormatter.string(from: route.expectedTravelTime)
-        
-        self.distance = route.distance
-        self.estimatedTime = route.expectedTravelTime
-        
-        self.getPrice(eta: self.estimatedTime!, distance: self.distance!)
-        
-        print("Distance: \(formattedDistance); ETA: \(formattedTravelTime!)")
-        
-        var routeCoordinates = route.coordinates!
-        let routeLine = MGLPolyline(coordinates: &routeCoordinates, count: route.coordinateCount)
-        
-        // Add the polyline to the map and fit the viewport to the polyline.
-        let edge = UIEdgeInsets(top: 60, left: 10, bottom: 60, right: 10)
-        
-        self.map.addAnnotation(routeLine)
-        self.map.setVisibleCoordinates(&routeCoordinates, count: route.coordinateCount, edgePadding: edge, animated: true)
-        
+        self.getPrice(eta: route.expectedTravelTime, distance: route.distance)
+        self.map.addRoute(route)
       }
     }
   }
@@ -186,7 +167,8 @@ class PreviewViewController: UIViewController {
       "user_id": userId,
       "estimated_time": eta,
       "distance": dist,
-      "price": self.price
+      "price": self.price,
+      "address": self.destination?.qualifiedName
     ]
     
     self.socket.emit("rideRequest", params)
@@ -229,21 +211,7 @@ class PreviewViewController: UIViewController {
             // There is an error
             return
           }
-          let distanceFormatter = LengthFormatter()
-          let formattedDistance = distanceFormatter.string(fromMeters: rte.distance)
-          
-          let travelTimeFormatter = DateComponentsFormatter()
-          travelTimeFormatter.unitsStyle = .short
-          let formattedTravelTime = travelTimeFormatter.string(from: rte.expectedTravelTime)
-          
-          var routeCoordinates = rte.coordinates!
-          let routeLine = MGLPolyline(coordinates: &routeCoordinates, count: rte.coordinateCount)
-          
-          // Add the polyline to the map and fit the viewport to the polyline.
-          let edge = UIEdgeInsets(top: 60, left: 10, bottom: 60, right: 10)
-          
-          self.map.addAnnotation(routeLine)
-          self.map.setVisibleCoordinates(&routeCoordinates, count: rte.coordinateCount, edgePadding: edge, animated: true)
+          self.map.addRoute(rte)
         })
       }
     }
@@ -265,17 +233,7 @@ class PreviewViewController: UIViewController {
         self.currentLocation = location
         PDRoute.calculate(start: location, destination: destination, completionHandler: { (route, err) in
           guard let rte = route else { return }
-         
-          var routeCoordinates = rte.coordinates!
-          let routeLine = MGLPolyline(coordinates: &routeCoordinates, count: rte.coordinateCount)
-          
-          // Add the polyline to the map and fit the viewport to the polyline.
-          let edge = UIEdgeInsets(top: 60, left: 10, bottom: 60, right: 10)
-          guard let annotations = self.map.annotations else { return }
-          self.map.removeAnnotations(annotations)
-          
-          self.map.addAnnotation(routeLine)
-          self.map.setVisibleCoordinates(&routeCoordinates, count: rte.coordinateCount, edgePadding: edge, animated: true)
+          self.map.addRoute(rte)
         })
       }, onFail: { (err, location) -> (Void) in
         

@@ -164,14 +164,10 @@ class DriverViewController: UIViewController {
         }
         
         guard let route = rte else { return }
-        let routeLine = MGLPolyline(coordinates: route.coordinates!, count: route.coordinateCount)
-        
-        let edge = UIEdgeInsets(top: 60, left: 10, bottom: 60, right: 10)
         
         self.map.removeAnnotations(self.map.annotations!)
-        self.map.addAnnotation(routeLine)
+        self.map.addRoute(route)
         
-        self.map.setVisibleCoordinates(route.coordinates!, count: route.coordinateCount, edgePadding: edge, animated: true)
       })
     }) { (error, location) -> (Void) in
     }
@@ -214,16 +210,12 @@ class DriverViewController: UIViewController {
     self.subscription = Locator.subscribePosition(accuracy: .room, onUpdate: { (location) -> (Void) in
       PDRoute.calculate(start: location, destination: self.destination!) { (rte, error) in
         guard let route = rte else { return }
-        let routeLine = MGLPolyline(coordinates: route.coordinates!, count: route.coordinateCount)
-        
-        let edge = UIEdgeInsets(top: 60, left: 10, bottom: 60, right: 10)
         
         if let annotations = self.map.annotations {
           self.map.removeAnnotations(annotations)
         }
         
-        self.map.addAnnotation(routeLine)
-        self.map.setVisibleCoordinates(route.coordinates!, count: route.coordinateCount, edgePadding: edge, animated: true)
+        self.map.addRoute(route)
       }
     }) { (error, location) -> (Void) in
       
@@ -261,26 +253,7 @@ class DriverViewController: UIViewController {
       }
       
       if let route = routes?.first, let leg = route.legs.first {
-        print("Route via \(leg):")
-        
-        let distanceFormatter = LengthFormatter()
-        let formattedDistance = distanceFormatter.string(fromMeters: route.distance)
-        
-        let travelTimeFormatter = DateComponentsFormatter()
-        travelTimeFormatter.unitsStyle = .short
-        let formattedTravelTime = travelTimeFormatter.string(from: route.expectedTravelTime)
-        
-        print("Distance: \(formattedDistance); ETA: \(formattedTravelTime!)")
-        
-        var routeCoordinates = route.coordinates!
-        let routeLine = MGLPolyline(coordinates: &routeCoordinates, count: route.coordinateCount)
-        
-        // Add the polyline to the map and fit the viewport to the polyline.
-        let edge = UIEdgeInsets(top: 60, left: 10, bottom: 60, right: 10)
-        print("getting directions")
-        self.map.addAnnotation(routeLine)
-        self.map.setVisibleCoordinates(&routeCoordinates, count: route.coordinateCount, edgePadding: edge, animated: true)
-        
+        self.map.addRoute(route)
       }
     }
   }
