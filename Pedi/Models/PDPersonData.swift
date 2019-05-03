@@ -74,12 +74,12 @@ class PDPersonData: NSObject {
     return isDriver
   }
   
-  class func setUserId(_ userId: String) {
+  class func setUserId(_ userId: Int) {
     save(object: userId, key: "user_id")
   }
   
-  class func userId() -> String? {
-    guard let userId = getObject(forKey: "user_id") as? String else { return nil }
+  class func userId() -> Int? {
+    guard let userId = getObject(forKey: "user_id") as? Int else { return nil }
     return userId
   }
   

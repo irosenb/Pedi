@@ -113,7 +113,7 @@ class NameViewController: UIViewController {
     guard let isDriver = data["is_driver"] as? Bool else { return }
     PDPersonData.setIsDriver(isDriver)
     
-    guard let userId = data["user_id"] as? String else { return }
+    guard let userId = data["user_id"] as? Int else { return }
     PDPersonData.setUserId(userId)
     
     if let driverId = data["driver_id"] as? Int {
