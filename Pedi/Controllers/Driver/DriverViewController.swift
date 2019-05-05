@@ -245,7 +245,7 @@ class DriverViewController: UIViewController {
       Waypoint(coordinate: destination.coordinate, coordinateAccuracy: -1, name: "end")
     ]
     
-    let options = RouteOptions(waypoints: waypoints, profileIdentifier: .cycling)
+    let options = RouteOptions(waypoints: waypoints, profileIdentifier: .automobile)
     options.includesSteps = true
     
     let task = directions.calculate(options) { (waypoints, routes, error) in
