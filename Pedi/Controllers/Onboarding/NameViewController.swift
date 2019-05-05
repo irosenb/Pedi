@@ -39,6 +39,10 @@ class NameViewController: UIViewController {
     label.sizeToFit()
     view.addSubview(label)
     
+    if let driver = isDriver, driver {
+      label.text = "What's your legal name?"
+    }
+    
     firstName.translatesAutoresizingMaskIntoConstraints = false
     firstName.placeholder = "First name"
     view.addSubview(firstName)

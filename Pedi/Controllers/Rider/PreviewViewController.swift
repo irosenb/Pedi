@@ -233,6 +233,8 @@ class PreviewViewController: UIViewController {
         self.currentLocation = location
         PDRoute.calculate(start: location, destination: destination, completionHandler: { (route, err) in
           guard let rte = route else { return }
+          guard let annotations = self.map.annotations else { return }
+          self.map.removeAnnotations(annotations)
           self.map.addRoute(rte)
         })
       }, onFail: { (err, location) -> (Void) in
@@ -247,7 +249,7 @@ class PreviewViewController: UIViewController {
       guard let result = data as? [[String: Any]] else { return }
       
       // Make sure it's the same ride
-      guard let pickupRide = result[0]["id"] as? Int else { return }
+      guard let pickupRide = result[0]["ride_id"] as? Int else { return }
       guard let ride = self.rideId else { return }
       guard pickupRide == ride else { return }
       

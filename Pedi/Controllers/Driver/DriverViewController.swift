@@ -233,7 +233,9 @@ class DriverViewController: UIViewController {
     Locator.stopRequest(locationSubscription!)
     
     self.rideId = nil
+    self.map.removeAnnotations(map.annotations!)
     
+    self.getLocation()
   }
   
   func calculateDirections(destination: CLLocation) {
