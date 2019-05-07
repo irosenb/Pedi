@@ -131,8 +131,9 @@ class PreviewViewController: UIViewController {
       Waypoint(coordinate: endPoint.coordinate, coordinateAccuracy: -1, name: "end")
     ]
   
-    let options = RouteOptions(waypoints: waypoints, profileIdentifier: .cycling)
+    let options = RouteOptions(waypoints: waypoints, profileIdentifier: .automobile)
     options.includesSteps = true
+    options.roadClassesToAvoid = .motorway
     
     let task = directions.calculate(options) { (waypoints, routes, error) in
       guard error == nil else {
@@ -159,23 +160,33 @@ class PreviewViewController: UIViewController {
     guard let eta = estimatedTime else { return }
     guard let dist = distance else { return }
     
-    let params: [String: Any] = [
-      "start_latitude": startPoint.coordinate.latitude,
-      "start_longitude": startPoint.coordinate.longitude,
-      "destination_latitude": endPoint.coordinate.latitude,
-      "destination_longitude": endPoint.coordinate.longitude,
-      "user_id": userId,
-      "estimated_time": eta,
-      "distance": dist,
-      "price": self.price,
-      "address": self.destination?.qualifiedName
-    ]
+    let options = ReverseGeocodeOptions(coordinate: startPoint.coordinate)
     
-    self.socket.emit("rideRequest", params)
+    let task = Geocoder.shared.geocode(options) { (places, attribution, error) in
+      guard let placemark = places?.first else {
+        return
+      }
+
+      let params: [String: Any] = [
+        "start_latitude": startPoint.coordinate.latitude,
+        "start_longitude": startPoint.coordinate.longitude,
+        "destination_latitude": endPoint.coordinate.latitude,
+        "destination_longitude": endPoint.coordinate.longitude,
+        "user_id": userId,
+        "estimated_time": eta,
+        "distance": dist,
+        "price": self.price,
+        "destination_address": self.destination?.qualifiedName,
+        "pickup_address": placemark.qualifiedName
+      ]
+      
+      self.socket.emit("rideRequest", params)
+      
+      self.monitorAcceptedRide()
+      self.monitorPickUp()
+      self.monitorDropOff()
+    }
     
-    self.monitorAcceptedRide()
-    self.monitorPickUp()
-    self.monitorDropOff()
   }
 
   func monitorAcceptedRide() {
@@ -234,6 +245,12 @@ class PreviewViewController: UIViewController {
         PDRoute.calculate(start: location, destination: destination, completionHandler: { (route, err) in
           guard let rte = route else { return }
           guard let annotations = self.map.annotations else { return }
+          
+          let destinationAnnotation = MGLPointAnnotation()
+          destinationAnnotation.coordinate = destination.coordinate
+          
+          self.map.addAnnotation(destinationAnnotation)
+          
           self.map.removeAnnotations(annotations)
           self.map.addRoute(rte)
         })

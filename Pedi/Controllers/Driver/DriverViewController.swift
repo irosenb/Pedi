@@ -29,6 +29,10 @@ class DriverViewController: UIViewController {
   var droppedOff = false
   var locationSubscription: LocationRequest?
   var subscription: LocationRequest?
+  var pickup_address: String?
+  var destination_address: String?
+  let destinationView = UILabel()
+  
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -69,6 +73,10 @@ class DriverViewController: UIViewController {
     declineButton.backgroundColor = Styles.Colors.darkPurple
     declineButton.isHidden = true
     view.addSubview(declineButton)
+    
+    destinationView.font = UIFont.boldSystemFont(ofSize: 20)
+    destinationView.translatesAutoresizingMaskIntoConstraints = false
+    view.addSubview(destinationView)
   }
   
   func addConstraints() {
@@ -87,6 +95,10 @@ class DriverViewController: UIViewController {
     declineButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
     declineButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
     declineButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+    
+    destinationView.topAnchor.constraint(equalTo: dashboard.bottomAnchor, constant: 40).isActive = true
+    destinationView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: 0).isActive = true
+    destinationView.heightAnchor.constraint(equalToConstant: 140).isActive = true
     
   }
   
@@ -122,6 +134,14 @@ class DriverViewController: UIViewController {
       
       guard let destinationLatitude = params[0]["destination_latitude"] as? Double else { return }
       guard let destinationLongitude = params[0]["destination_longitude"] as? Double else { return }
+      
+      guard let pickup_addr = params[0]["pickup_address"] as? String else { return }
+      guard let destination_addr = params[0]["destination_address"] as? String else { return }
+      
+      self.pickup_address = pickup_addr
+      self.destination_address = destination_addr
+      
+      self.destinationView.text = pickup_addr
       
       guard let rideId = params[0]["ride_id"] as? Int else { return }
       guard self.rideId == nil else { return }
@@ -235,6 +255,10 @@ class DriverViewController: UIViewController {
     self.rideId = nil
     self.map.removeAnnotations(map.annotations!)
     
+    acceptButton.removeTarget(self, action: nil, for: .touchUpInside)
+    acceptButton.addTarget(self, action: #selector(acceptRide), for: .touchUpInside)
+    acceptButton.setTitle("Accept Ride", for: .normal)
+    
     self.getLocation()
   }
   
@@ -247,6 +271,7 @@ class DriverViewController: UIViewController {
     
     let options = RouteOptions(waypoints: waypoints, profileIdentifier: .automobile)
     options.includesSteps = true
+    options.roadClassesToAvoid = .motorway
     
     let task = directions.calculate(options) { (waypoints, routes, error) in
       guard error == nil else {
@@ -256,6 +281,11 @@ class DriverViewController: UIViewController {
       
       if let route = routes?.first, let leg = route.legs.first {
         self.map.addRoute(route)
+        
+        let destinationAnnotation = MGLPointAnnotation()
+        destinationAnnotation.coordinate = destination.coordinate
+        
+        self.map.addAnnotation(destinationAnnotation)
       }
     }
   }

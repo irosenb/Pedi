@@ -20,6 +20,7 @@ class PDRoute: NSObject {
     
     let options = RouteOptions(waypoints: waypoints, profileIdentifier: .cycling)
     options.includesSteps = true
+    options.roadClassesToAvoid = .motorway
     
     let task = Directions.shared.calculate(options) { (waypoints, routes, error) in
       guard error == nil else {
