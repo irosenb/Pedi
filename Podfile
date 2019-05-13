@@ -11,6 +11,7 @@ target 'Pedi' do
   pod 'Alamofire'
   pod 'ObjectMapper', '~> 3.4'
   pod 'Socket.IO-Client-Swift', '~> 15.0.0'
+  pod 'Stripe'
   # Pods for Pedi
 
   target 'PediTests' do

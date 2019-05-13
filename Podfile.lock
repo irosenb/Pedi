@@ -9,6 +9,7 @@ PODS:
   - Socket.IO-Client-Swift (15.0.0):
     - Starscream (~> 3.1)
   - Starscream (3.1.0)
+  - Stripe (15.0.0)
   - SwiftLocation (3.2.3):
     - SwiftyJSON (~> 4.0.0-alpha.1)
   - SwiftyJSON (4.0.0)
@@ -20,6 +21,7 @@ DEPENDENCIES:
   - MapboxGeocoder.swift (~> 0.10)
   - ObjectMapper (~> 3.4)
   - Socket.IO-Client-Swift (~> 15.0.0)
+  - Stripe
   - SwiftLocation
 
 SPEC REPOS:
@@ -32,6 +34,7 @@ SPEC REPOS:
     - Polyline
     - Socket.IO-Client-Swift
     - Starscream
+    - Stripe
     - SwiftLocation
     - SwiftyJSON
 
@@ -44,9 +47,10 @@ SPEC CHECKSUMS:
   Polyline: 3d69f75bb136357e27291d439d0436c6ebda57a4
   Socket.IO-Client-Swift: c039a808195d22a7192962841b8c035cb61ea49e
   Starscream: 08172b481e145289c4930cb567230fb55897cfa4
+  Stripe: 312b22a67af9fa55c246d26148b3f3a9636a0ff2
   SwiftLocation: a3c3bc2023118171ef3572188a31def94aa0892c
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
 
-PODFILE CHECKSUM: 29d0d200ed746276e3eeebae886de0bcd4d62299
+PODFILE CHECKSUM: 8bd8d58c9c5b6c88524beecdae2e55f4bfe24e33
 
 COCOAPODS: 1.6.1
