@@ -37,6 +37,19 @@ class PDUser: Mappable {
     }
   }
   
+  class func saveCreditCard(token: String, completionHandler: @escaping (_ response: [String: Any]?) -> Void) {
+    var params = ["token": token]
+    guard let sessionToken = PDPersonData.authToken() else { return }
+    Alamofire.request("\(PDServer.baseUrl)/users/credit_card", method: .post, parameters: params, encoding: URLEncoding.default, headers: ["x-session-token": sessionToken]).responseJSON { (response) in
+      if let data = response.result.value as? [String: Any] {
+        completionHandler(data)
+        return
+      }
+      
+      completionHandler(nil)
+    }
+  }
+  
   class func requestRide(start: CLLocation, destination: CLLocation, completionHandler: @escaping (_ response: [String: Any]?) -> Void) {
    
 //    Alamofire.request("\(PDServer.baseUrl)/rides/request", method: .post, parameters: params, encoding: URLEncoding.default, headers: ["x-session-token": token]).responseJSON { (response) in

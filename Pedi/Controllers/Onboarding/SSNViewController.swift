@@ -23,6 +23,8 @@ class SSNViewController: UIViewController {
     
     addViews()
     addConstraints()
+  
+    view.backgroundColor = .white
     
     NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
 
@@ -38,6 +40,7 @@ class SSNViewController: UIViewController {
     
     ssn.translatesAutoresizingMaskIntoConstraints = false
     ssn.placeholder = "We need this for verification purposes"
+    ssn.keyboardType = .numberPad
     view.addSubview(ssn)
     
     continueButton.translatesAutoresizingMaskIntoConstraints = false
@@ -82,7 +85,9 @@ class SSNViewController: UIViewController {
 
   
   @objc func nextScreen() {
-    
+    let birthday = BirthdayViewController()
+    birthday.ssn = ssn.text
+    self.navigationController?.pushViewController(birthday, animated: true)
   }
 
 }

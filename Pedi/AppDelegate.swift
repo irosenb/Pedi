@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Stripe
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     window = UIWindow(frame: UIScreen.main.bounds)
     
+    STPPaymentConfiguration.shared().publishableKey = "pk_test_VdwPB8dfZSR9vXuiZYqfAQQU"
+
     var controller: UIViewController?
     
     if PDPersonData.authToken() != nil {

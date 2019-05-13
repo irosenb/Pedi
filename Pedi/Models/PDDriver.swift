@@ -61,4 +61,27 @@ class PDDriver: Mappable {
     
   }
   
+  class func setStripe(day: Int, month: Int, year: Int, ssn: String, completionHandler: @escaping (_ response: [String: Any]?) -> Void) {
+    guard let token = PDPersonData.authToken() else { return }
+    guard let driverId = PDPersonData.driverId() else { return }
+    let params = [
+      "day": day,
+      "month": month,
+      "year": year,
+      "ssn": ssn,
+      "driver_id": driverId,
+      "routing_number": routing,
+      "account_number": account
+      ] as [String : Any]
+    
+    Alamofire.request("\(PDServer.baseUrl)/drivers/stripe", method: .put, parameters: params, encoding: URLEncoding.default, headers: ["x-session-token": token]).responseJSON { (response) in
+      if let data = response.result.value as? [String: Any] {
+        completionHandler(data)
+        return
+      }
+      
+      completionHandler(nil)
+    }
+  }
+  
 }

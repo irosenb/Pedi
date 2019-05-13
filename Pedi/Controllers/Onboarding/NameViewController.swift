@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import Stripe
 
 class NameViewController: UIViewController {
   var password: String?
@@ -127,15 +128,17 @@ class NameViewController: UIViewController {
     var controller: UIViewController?
     
     if isDriver {
-      controller = DriverViewController()
+      controller = SSNViewController()
     } else {
-      controller = RequestRideViewController()
+      let addCardController = STPAddCardViewController()
+      addCardController.delegate = self
+      navigationController?.navigationBar.isHidden = false
+      self.navigationController?.pushViewController(addCardController, animated: true)
+      return
     }
     
-    let nav = UINavigationController(rootViewController: controller!)
-    
     DispatchQueue.main.async {
-      self.present(nav, animated: true, completion: nil)
+      self.navigationController?.pushViewController(controller!, animated: true)
     }
   }
   
@@ -147,4 +150,25 @@ class NameViewController: UIViewController {
     view.setNeedsLayout()
   }
 
+}
+
+extension NameViewController: STPAddCardViewControllerDelegate {
+  func addCardViewControllerDidCancel(_ addCardViewController: STPAddCardViewController) {
+    navigationController?.popViewController(animated: true)
+    self.navigationController?.isNavigationBarHidden = true 
+  }
+  
+  func addCardViewController(_ addCardViewController: STPAddCardViewController, didCreateToken token: STPToken, completion: @escaping STPErrorBlock) {
+    PDUser.saveCreditCard(token: token.tokenId) { (data) in
+      guard let results = data else {
+        self.navigationController?.popViewController(animated: true)
+        self.navigationController?.isNavigationBarHidden = true
+        return
+      }
+      
+      let requestRide = RequestRideViewController()
+      let nav = UINavigationController(rootViewController: requestRide)
+      self.present(nav, animated: true, completion: nil)
+    }
+  }
 }
