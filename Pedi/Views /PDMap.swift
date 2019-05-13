@@ -13,7 +13,9 @@ import MapboxDirections
 class PDMap: MGLMapView, MGLMapViewDelegate {
   override init(frame: CGRect) {
     super.init(frame: frame)
-    styleURL = URL(string: "mapbox://styles/irosenb/cjjyq8qjq801e2rlhdg0i1ceu")
+    self.delegate = self
+    self.tintColor = Styles.Colors.purple
+    styleURL = URL(string: "mapbox://styles/irosenb/cjvfkixynn7ot1frvg37pfflr")
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -30,6 +32,7 @@ class PDMap: MGLMapView, MGLMapViewDelegate {
     
     var routeCoordinates = route.coordinates!
     let routeLine = MGLPolyline(coordinates: &routeCoordinates, count: route.coordinateCount)
+
     
     // Add the polyline to the map and fit the viewport to the polyline.
     let edge = UIEdgeInsets(top: 60, left: 10, bottom: 60, right: 10)
@@ -38,27 +41,18 @@ class PDMap: MGLMapView, MGLMapViewDelegate {
     
   }
   
-  func mapView(_ mapView: MGLMapView, viewFor annotation: MGLAnnotation) -> MGLAnnotationView? {
-      // This example is only concerned with point annotations.
-      guard annotation is MGLPointAnnotation else {
-        return nil
-      }
-      
-      // Use the point annotation’s longitude value (as a string) as the reuse identifier for its view.
-      let reuseIdentifier = "\(annotation.coordinate.longitude)"
-      
-      // For better performance, always try to reuse existing annotations.
-      var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier)
-      
-      // If there’s no reusable annotation view available, initialize a new one.
-      if annotationView == nil {
-        annotationView = MGLAnnotationView(reuseIdentifier: reuseIdentifier)
-        annotationView!.bounds = CGRect(x: 0, y: 0, width: 40, height: 40)
-        
-        // Set the annotation view’s background color to a value determined by its longitude.
-        annotationView!.backgroundColor = Styles.Colors.darkPurple
-      }
-      
-      return annotationView
+  func mapView(mapView: MGLMapView, alphaForShapeAnnotation annotation: MGLShape) -> CGFloat {
+    // Set the alpha for all shape annotations to 1 (full opacity)
+    return 1
+  }
+  
+  func mapView(mapView: MGLMapView, lineWidthForPolylineAnnotation annotation: MGLPolyline) -> CGFloat {
+    // Set the line width for polyline annotations
+    return 5.0
+  }
+  
+  func mapView(mapView: MGLMapView, strokeColorForShapeAnnotation annotation: MGLShape) -> UIColor {
+    // Give our polyline a unique color by checking for its `title` property
+    return Styles.Colors.darkPurple
   }
 }
