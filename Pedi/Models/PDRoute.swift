@@ -18,7 +18,7 @@ class PDRoute: NSObject {
       Waypoint(coordinate: destination.coordinate, coordinateAccuracy: -1, name: "end")
     ]
     
-    let options = RouteOptions(waypoints: waypoints, profileIdentifier: .cycling)
+    let options = RouteOptions(waypoints: waypoints, profileIdentifier: .automobile)
     options.includesSteps = true
     options.roadClassesToAvoid = .motorway
     

@@ -182,7 +182,7 @@ class DriverViewController: UIViewController {
         if err != nil {
           return
         }
-        
+                
         guard let route = rte else { return }
         
         self.map.removeAnnotations(self.map.annotations!)
@@ -203,7 +203,7 @@ class DriverViewController: UIViewController {
       self.currentLocation = location
       self.map.setCenter(location.coordinate, zoomLevel: 14, animated: true)
     }) { (error, location) -> (Void) in
-      
+      print("Error with location: \(error.localizedDescription)")
     }
   }
   
@@ -285,6 +285,11 @@ class DriverViewController: UIViewController {
         let destinationAnnotation = MGLPointAnnotation()
         destinationAnnotation.coordinate = destination.coordinate
         
+        let edge = UIEdgeInsets(top: 60, left: 10, bottom: 60, right: 10)
+        
+        var routeCoordinates = route.coordinates!
+        self.map.setVisibleCoordinates(&routeCoordinates, count: route.coordinateCount, edgePadding: edge, animated: true)
+
         self.map.addAnnotation(destinationAnnotation)
       }
     }

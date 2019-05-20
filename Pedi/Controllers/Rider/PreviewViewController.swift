@@ -144,6 +144,10 @@ class PreviewViewController: UIViewController {
       if let route = routes?.first, let leg = route.legs.first {
         print("Route via \(leg):")
         self.getPrice(eta: route.expectedTravelTime, distance: route.distance)
+        
+        var routeCoordinates = route.coordinates!
+        let edge = UIEdgeInsets(top: 60, left: 10, bottom: 60, right: 10)
+        self.map.setVisibleCoordinates(&routeCoordinates, count: route.coordinateCount, edgePadding: edge, animated: true)
         self.map.addRoute(route)
       }
     }
@@ -214,14 +218,18 @@ class PreviewViewController: UIViewController {
       guard let acceptedRide = loc[0]["ride_id"] as? Int else { return }
       
       if acceptedRide == self.rideId {
-        let startPoint = CLLocation(latitude: latitude, longitude: longitude)
-        guard let destination = self.currentLocation else { return }
+        let destination = CLLocation(latitude: latitude, longitude: longitude)
+        guard let startPoint = self.currentLocation else { return }
         
         PDRoute.calculate(start: startPoint, destination: destination, completionHandler: { (route, error) in
           guard let rte = route else {
             // There is an error
             return
           }
+          let edge = UIEdgeInsets(top: 60, left: 10, bottom: 60, right: 10)
+          
+          var routeCoordinates = rte.coordinates!
+          self.map.setVisibleCoordinates(&routeCoordinates, count: rte.coordinateCount, edgePadding: edge, animated: true)
           self.map.addRoute(rte)
         })
       }
@@ -272,6 +280,7 @@ class PreviewViewController: UIViewController {
       
       self.map.removeAnnotations(self.map.annotations!)
       
+      self.rideId = nil
     }
   }
   
