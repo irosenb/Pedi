@@ -20,6 +20,8 @@ class NameViewController: UIViewController {
   let loader = UIActivityIndicatorView()
   let continueButton = UIButton()
   var continueBottomAnchor: NSLayoutConstraint?
+  var terms = UILabel()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .white
@@ -29,7 +31,7 @@ class NameViewController: UIViewController {
     addViews()
     addConstraints()
     
-    NotificationCenter.default.addObserver(self, selector: #selector(EmailSignupViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
     // Do any additional setup after loading the view.
   }
   
@@ -63,6 +65,10 @@ class NameViewController: UIViewController {
     loader.translatesAutoresizingMaskIntoConstraints = false
     loader.hidesWhenStopped = true
     view.addSubview(loader)
+    
+    terms.translatesAutoresizingMaskIntoConstraints = false
+    terms.text = "By continuing, you agree to the Terms of Service and Privacy Policy."
+    view.addSubview(terms)
   }
   
   func addConstraints() {
@@ -88,6 +94,10 @@ class NameViewController: UIViewController {
     loader.centerXAnchor.constraint(equalTo: continueButton.centerXAnchor, constant: 0).isActive = true
     loader.centerYAnchor.constraint(equalTo: continueButton.centerYAnchor, constant: 0).isActive = true
     
+    terms.bottomAnchor.constraint(equalTo: continueButton.topAnchor, constant: -20).isActive = true
+    terms.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+    terms.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -30).isActive = true
+    terms.heightAnchor.constraint(equalToConstant: 40).isActive = true
   }
   
   @objc func nextScreen() {
@@ -143,7 +153,8 @@ class NameViewController: UIViewController {
   }
   
   @objc func keyboardWillShow(notification: Notification) {
-    let frame = (notification.userInfo![UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+    continueBottomAnchor?.isActive = false
+    let frame = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
     continueBottomAnchor = continueButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
     continueBottomAnchor?.constant = -frame.height
     continueBottomAnchor?.isActive = true

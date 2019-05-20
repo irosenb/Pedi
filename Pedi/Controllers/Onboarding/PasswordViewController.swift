@@ -22,7 +22,7 @@ class PasswordViewController: UIViewController {
     addViews()
     addConstraints()
     
-    NotificationCenter.default.addObserver(self, selector: #selector(EmailSignupViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(PasswordViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
 
     // Do any additional setup after loading the view.
   }
@@ -66,7 +66,8 @@ class PasswordViewController: UIViewController {
   }
   
   @objc func keyboardWillShow(notification: Notification) {
-    let frame = (notification.userInfo![UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+    continueBottomAnchor?.isActive = false
+    let frame = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
     continueBottomAnchor = continueButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
     continueBottomAnchor?.constant = -frame.height
     continueBottomAnchor?.isActive = true

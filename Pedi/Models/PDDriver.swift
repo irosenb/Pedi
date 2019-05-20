@@ -61,7 +61,7 @@ class PDDriver: Mappable {
     
   }
   
-  class func setStripe(day: Int, month: Int, year: Int, ssn: String, completionHandler: @escaping (_ response: [String: Any]?) -> Void) {
+  class func setStripe(day: Int, month: Int, year: Int, ssn: String, routing: String, account: String, completionHandler: @escaping (_ response: [String: Any]?) -> Void) {
     guard let token = PDPersonData.authToken() else { return }
     guard let driverId = PDPersonData.driverId() else { return }
     let params = [

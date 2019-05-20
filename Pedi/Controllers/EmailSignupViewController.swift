@@ -80,7 +80,8 @@ class EmailSignupViewController: UIViewController {
   }
   
   @objc func keyboardWillShow(notification: Notification) {
-    let frame = (notification.userInfo![UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+    continueBottomAnchor?.isActive = false
+    let frame = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
     continueBottomAnchor = continueButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
     continueBottomAnchor?.constant = -frame.height
     continueBottomAnchor?.isActive = true

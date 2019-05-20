@@ -71,7 +71,8 @@ class BirthdayViewController: UIViewController {
   }
   
   @objc func keyboardWillShow(notification: Notification) {
-    let frame = (notification.userInfo![UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+    continueBottomAnchor?.isActive = false
+    let frame = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
     continueBottomAnchor = continueButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
     continueBottomAnchor?.constant = -frame.height
     continueBottomAnchor?.isActive = true
@@ -79,14 +80,9 @@ class BirthdayViewController: UIViewController {
   }
   
   @objc func nextScreen() {
-    let day = Calendar.current.component(.day, from: dob.date)
-    let month = Calendar.current.component(.month, from: dob.date)
-    let year = Calendar.current.component(.year, from: dob.date)
-    
-    PDDriver.setStripe(day: day, month: month, year: year, ssn: ssn!) { (data) in
-      let driver = DriverViewController()
-      let nav = UINavigationController(rootViewController: driver)
-      self.present(nav, animated: true, completion: nil)
-    }
+    let bankAccount = BankAccountViewController()
+    bankAccount.ssn = ssn
+    bankAccount.dob = dob.date
+    navigationController?.pushViewController(bankAccount, animated: true)
   }
 }
