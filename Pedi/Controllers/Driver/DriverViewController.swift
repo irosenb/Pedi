@@ -11,6 +11,7 @@ import SocketIO
 import Mapbox
 import MapboxDirections
 import SwiftLocation
+import MapboxNavigation
 
 class DriverViewController: UIViewController {
   let dashboard = DriverDashboard()
@@ -32,7 +33,6 @@ class DriverViewController: UIViewController {
   var pickup_address: String?
   var destination_address: String?
   let destinationView = UILabel()
-  
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -75,6 +75,7 @@ class DriverViewController: UIViewController {
     view.addSubview(declineButton)
     
     destinationView.font = UIFont.boldSystemFont(ofSize: 20)
+    destinationView.textColor = Styles.Colors.purple
     destinationView.translatesAutoresizingMaskIntoConstraints = false
     view.addSubview(destinationView)
   }
@@ -141,6 +142,7 @@ class DriverViewController: UIViewController {
       self.pickup_address = pickup_addr
       self.destination_address = destination_addr
       
+      self.destinationView.isHidden = false
       self.destinationView.text = pickup_addr
       
       guard let rideId = params[0]["ride_id"] as? Int else { return }
@@ -214,8 +216,6 @@ class DriverViewController: UIViewController {
     acceptButton.removeTarget(self, action: nil, for: .touchUpInside)
     acceptButton.addTarget(self, action: #selector(pickUp), for: .touchUpInside)
     acceptButton.setTitle("Pick up", for: .normal)
-    
-    
   }
   
   @objc func pickUp() {
@@ -254,6 +254,8 @@ class DriverViewController: UIViewController {
     
     self.rideId = nil
     self.map.removeAnnotations(map.annotations!)
+    
+    destinationView.isHidden = true
     
     acceptButton.removeTarget(self, action: nil, for: .touchUpInside)
     acceptButton.addTarget(self, action: #selector(acceptRide), for: .touchUpInside)
@@ -294,4 +296,7 @@ class DriverViewController: UIViewController {
       }
     }
   }
+}
+
+extension DriverViewController: NavigationViewControllerDelegate {
 }

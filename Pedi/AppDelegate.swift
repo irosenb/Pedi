@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     window = UIWindow(frame: UIScreen.main.bounds)
     
-    STPPaymentConfiguration.shared().publishableKey = "pk_test_VdwPB8dfZSR9vXuiZYqfAQQU"
+    STPPaymentConfiguration.shared().publishableKey = "pk_test_ZoREMCIot9digC5FjYgCjsdY007pfiuicc"
 
     var controller: UIViewController?
     

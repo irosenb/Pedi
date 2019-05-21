@@ -281,6 +281,8 @@ class PreviewViewController: UIViewController {
       self.map.removeAnnotations(self.map.annotations!)
       
       self.rideId = nil
+      
+      self.dismiss(animated: true, completion: nil)
     }
   }
   
