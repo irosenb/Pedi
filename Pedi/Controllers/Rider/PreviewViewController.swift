@@ -278,7 +278,9 @@ class PreviewViewController: UIViewController {
       guard let ride = self.rideId else { return }
       guard pickupRide == ride else { return }
       
-      self.map.removeAnnotations(self.map.annotations!)
+      if let annotations = self.map.annotations {
+        self.map.removeAnnotations(annotations)
+      }
       
       self.rideId = nil
       

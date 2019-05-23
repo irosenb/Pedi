@@ -108,7 +108,8 @@ class DriverViewController: UIViewController {
     
     PDDriver.toggleDriving(isOn: isDriving) { (data) in
       if (isDriving) {
-       self.monitorRideRequest()
+        self.monitorRideRequest()
+        self.monitorAcceptedRide()
       }
     }
   }
@@ -123,7 +124,28 @@ class DriverViewController: UIViewController {
     guard let annotations = map.annotations else { return }
     map.removeAnnotations(annotations)
     
+    destinationView.isHidden = true
+    
     self.rideId = nil
+  }
+  
+  func monitorAcceptedRide() {
+    self.socket.on("acceptRide") { (data, ack) in
+      guard let params = data as? [[String: Any]] else { return }
+      guard let rideId = params[0]["id"] as? Int else { return }
+      guard let driverId = params[0]["driver_id"] as? String else { return }
+      guard let currentDriver = PDPersonData.driverId() else { return }
+      
+      if rideId == self.rideId && Int(driverId) != currentDriver {
+        self.destinationView.isHidden = true
+        
+        self.declineButton.isHidden = true
+        self.acceptButton.isHidden = true
+        
+        guard let annotations = self.map.annotations else { return }
+        self.map.removeAnnotations(annotations)
+      }
+    }
   }
   
   func monitorRideRequest() {
@@ -173,27 +195,25 @@ class DriverViewController: UIViewController {
     
     self.declineButton.isHidden = true
     
-    self.locationSubscription = Locator.subscribePosition(accuracy: .room, onUpdate: { (location) -> (Void) in
-      self.currentLocation = location
-      guard !self.pickedUp else {
-        return
-      }
-      self.socket.emit("rideLocation", with: [["ride_id": ride, "latitude": location.coordinate.latitude, "longitude": location.coordinate.longitude]])
-      
-      PDRoute.calculate(start: location, destination: self.pickup!, completionHandler: { (rte, err) in
-        if err != nil {
-          return
-        }
-                
-        guard let route = rte else { return }
-        
-        self.map.removeAnnotations(self.map.annotations!)
-        self.map.addRoute(route)
-        
-      })
-    }) { (error, location) -> (Void) in
-    }
+    let controller = DirectionsViewController()
     
+    controller.origin = currentLocation
+    controller.pickup = pickup
+    controller.destination = destination
+    controller.rideId = rideId
+    
+    navigationController?.pushViewController(controller, animated: false)
+
+    self.rideId = nil
+    self.map.removeAnnotations(map.annotations!)
+    
+    destinationView.isHidden = true
+    
+    acceptButton.removeTarget(self, action: nil, for: .touchUpInside)
+    acceptButton.addTarget(self, action: #selector(acceptRide), for: .touchUpInside)
+    acceptButton.setTitle("Accept Ride", for: .normal)
+    
+    acceptButton.isHidden = true
   }
   
   func getLocation() {
