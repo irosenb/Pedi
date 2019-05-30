@@ -33,6 +33,7 @@ class DriverViewController: UIViewController {
   var pickup_address: String?
   var destination_address: String?
   let destinationView = UILabel()
+  let locationManager = CLLocationManager()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -58,6 +59,7 @@ class DriverViewController: UIViewController {
 
     dashboard.translatesAutoresizingMaskIntoConstraints = false
     dashboard.toggle.addTarget(self, action: #selector(toggleDriving), for: .valueChanged)
+    dashboard.cancel.addTarget(self, action: #selector(declineRide), for: .touchUpInside)
     view.addSubview(dashboard)
     
     acceptButton.translatesAutoresizingMaskIntoConstraints = false
@@ -66,13 +68,6 @@ class DriverViewController: UIViewController {
     acceptButton.setTitle("Accept Ride", for: .normal)
     acceptButton.isHidden = true
     view.addSubview(acceptButton)
-    
-    declineButton.translatesAutoresizingMaskIntoConstraints = false
-    declineButton.addTarget(self, action: #selector(declineRide), for: .touchUpInside)
-    declineButton.setTitle("X", for: .normal)
-    declineButton.backgroundColor = Styles.Colors.darkPurple
-    declineButton.isHidden = true
-    view.addSubview(declineButton)
     
     destinationView.font = UIFont.boldSystemFont(ofSize: 20)
     destinationView.textColor = Styles.Colors.purple
@@ -92,12 +87,12 @@ class DriverViewController: UIViewController {
     acceptButton.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
     acceptButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
     
-    declineButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 70).isActive = true
-    declineButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-    declineButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-    declineButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-    
-    destinationView.topAnchor.constraint(equalTo: dashboard.bottomAnchor, constant: 40).isActive = true
+//    declineButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 70).isActive = true
+//    declineButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
+//    declineButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+//    declineButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+//
+    destinationView.topAnchor.constraint(equalTo: dashboard.bottomAnchor, constant: 20).isActive = true
     destinationView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: 0).isActive = true
     destinationView.heightAnchor.constraint(equalToConstant: 140).isActive = true
     
@@ -116,7 +111,7 @@ class DriverViewController: UIViewController {
   
   @objc func declineRide() {
     acceptButton.isHidden = true
-    declineButton.isHidden = true
+    dashboard.cancel.isHidden = true
     
     guard let ride = rideId else { return }
     declinedRides.append(ride)
@@ -139,7 +134,7 @@ class DriverViewController: UIViewController {
       if rideId == self.rideId && Int(driverId) != currentDriver {
         self.destinationView.isHidden = true
         
-        self.declineButton.isHidden = true
+        self.dashboard.cancel.isHidden = true
         self.acceptButton.isHidden = true
         
         guard let annotations = self.map.annotations else { return }
@@ -179,7 +174,7 @@ class DriverViewController: UIViewController {
       self.calculateDirections(destination: self.pickup!)
       
       self.acceptButton.isHidden = false
-      self.declineButton.isHidden = false
+      self.dashboard.cancel.isHidden = false
       
     })
   }
@@ -193,7 +188,7 @@ class DriverViewController: UIViewController {
     self.acceptButton.removeTarget(self, action: nil, for: .touchUpInside)
     self.acceptButton.addTarget(self, action: #selector(arrive), for: .touchUpInside)
     
-    self.declineButton.isHidden = true
+    self.dashboard.cancel.isHidden = true
     
     let controller = DirectionsViewController()
     
@@ -217,16 +212,8 @@ class DriverViewController: UIViewController {
   }
   
   func getLocation() {
-    if Locator.authorizationStatus == .denied {
-      return
-    }
-    
-    Locator.currentPosition(accuracy: .room, onSuccess: { (location) -> (Void) in
-      self.currentLocation = location
-      self.map.setCenter(location.coordinate, zoomLevel: 14, animated: true)
-    }) { (error, location) -> (Void) in
-      print("Error with location: \(error.localizedDescription)")
-    }
+    self.locationManager.delegate = self
+    self.locationManager.requestLocation()
   }
   
   @objc func arrive() {
@@ -319,4 +306,16 @@ class DriverViewController: UIViewController {
 }
 
 extension DriverViewController: NavigationViewControllerDelegate {
+}
+
+extension DriverViewController: CLLocationManagerDelegate {
+  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    guard let location = locations.first else { return }
+    self.currentLocation = location
+    self.map.setCenter(location.coordinate, zoomLevel: 14, animated: true)
+  }
+  
+  func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    print("error: \(error)")
+  }
 }

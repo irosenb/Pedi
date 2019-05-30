@@ -51,8 +51,7 @@ class DirectionsViewController: UIViewController {
     
     self.socket.once(clientEvent: .connect) { (data, ack) in
       self.locationManager.delegate = self
-      self.locationManager.distanceFilter = 5.0
-      self.locationManager.startMonitoringSignificantLocationChanges()
+      self.locationManager.startUpdatingLocation()
     }
     
   }
@@ -75,6 +74,7 @@ class DirectionsViewController: UIViewController {
       let navigationOptions = NavigationOptions(navigationService: navigationService)
       self.navigationViewController = NavigationViewController(for: route, options: navigationOptions)
       self.navigationViewController.delegate = self
+      self.navigationViewController.showsReportFeedback = false
       
       self.addChild(self.navigationViewController)
       self.view.addSubview(self.navigationViewController.view)
