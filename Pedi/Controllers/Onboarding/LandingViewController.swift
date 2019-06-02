@@ -27,11 +27,13 @@ class LandingViewController: UIViewController {
   
   func addViews() {
     logo.translatesAutoresizingMaskIntoConstraints = false
-    logo.image = UIImage(named: "AppIcon")
+    logo.image = UIImage(named: "Icon")
     view.addSubview(logo)
     
     titleView.translatesAutoresizingMaskIntoConstraints = false
     titleView.text = "Pedi"
+    titleView.font = UIFont.systemFont(ofSize: 34)
+    titleView.textColor = UIColor.white
     view.addSubview(titleView)
     
     login.translatesAutoresizingMaskIntoConstraints = false
@@ -39,6 +41,7 @@ class LandingViewController: UIViewController {
     login.layer.borderColor = UIColor.white.cgColor
     login.layer.borderWidth = 4
     login.addTarget(self, action: #selector(logIn), for: .touchUpInside)
+    login.isHidden = true
     view.addSubview(login)
     
     signup.translatesAutoresizingMaskIntoConstraints = false

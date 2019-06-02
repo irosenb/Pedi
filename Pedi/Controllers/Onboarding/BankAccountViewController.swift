@@ -105,7 +105,11 @@ class BankAccountViewController: UIViewController {
     guard let account = accountField.text else { return }
     guard let routing = routingField.text else { return }
     
+    continueButton.setTitle("", for: .normal)
+    loader.startAnimating()
+    
     PDDriver.setStripe(day: day, month: month, year: year, ssn: socialSecurity, routing: routing, account: account) { (data) in
+      self.loader.stopAnimating()
       let driver = DriverViewController()
       let nav = UINavigationController(rootViewController: driver)
       self.present(nav, animated: true, completion: nil)

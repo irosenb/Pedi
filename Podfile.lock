@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.8.2)
+  - Atributika (4.8.2)
   - Mapbox-iOS-SDK (4.9.0)
   - MapboxCoreNavigation (0.33.0):
     - MapboxDirections.swift (~> 0.28.0)
@@ -31,6 +32,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - Atributika
   - Mapbox-iOS-SDK (~> 4.9)
   - MapboxDirections.swift (~> 0.28)
   - MapboxGeocoder.swift (~> 0.10)
@@ -43,6 +45,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - Atributika
     - Mapbox-iOS-SDK
     - MapboxCoreNavigation
     - MapboxDirections.swift
@@ -63,6 +66,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  Atributika: 7b3631032cf11f2197b352343e0bd1b783d8ca88
   Mapbox-iOS-SDK: 225036950837cbe408e6b333e51cd6001c122499
   MapboxCoreNavigation: b18785b61517628bcbc8d2d2c287812c71e8bdfe
   MapboxDirections.swift: bec8771badfbdd55a0194649a4194b2c2cb15b96
@@ -81,6 +85,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
   Turf: c6bdf62d6a70c647874f295dd1cf4eefc0c3e9e6
 
-PODFILE CHECKSUM: 820e95b5cb4106243994ca5e9c6940de72341a76
+PODFILE CHECKSUM: 0440076bcc52a4233175856a8a3e163fa77eacac
 
 COCOAPODS: 1.6.1

@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import Stripe
+import Atributika
 
 class NameViewController: UIViewController {
   var password: String?
@@ -20,7 +21,7 @@ class NameViewController: UIViewController {
   let loader = UIActivityIndicatorView()
   let continueButton = UIButton()
   var continueBottomAnchor: NSLayoutConstraint?
-  var terms = UILabel()
+  var terms = AttributedLabel()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -66,8 +67,21 @@ class NameViewController: UIViewController {
     loader.hidesWhenStopped = true
     view.addSubview(loader)
     
+    let style = Style("a").foregroundColor(Styles.Colors.purple, .normal).foregroundColor(Styles.Colors.darkPurple, .highlighted)
+    let all = Style.font(.systemFont(ofSize: 16))
     terms.translatesAutoresizingMaskIntoConstraints = false
-    terms.text = "By continuing, you agree to the Terms of Service and Privacy Policy."
+    terms.attributedText = "By continuing, you agree to the <a href=\"http://ridepedi.com/terms\">Terms of Service</a>.".style(tags: style).styleAll(all)
+    
+    terms.onClick = { label, detection in
+      switch detection.type {
+      case .tag(let tag):
+        if tag.name == "a", let href = tag.attributes["href"], let url = URL(string: href) {
+          UIApplication.shared.open(url)
+        }
+      default:
+        break
+      }
+    }
     view.addSubview(terms)
   }
   

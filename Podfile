@@ -13,6 +13,7 @@ target 'Pedi' do
   pod 'ObjectMapper', '~> 3.4'
   pod 'Socket.IO-Client-Swift', '~> 15.0.0'
   pod 'Stripe'
+  pod "Atributika"
   # Pods for Pedi
 
   target 'PediTests' do
